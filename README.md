@@ -1,4 +1,5 @@
-# Office-Queue-Management-SE2
+# Office Queue Management System
+## SE2
 
 You need to develop a system to manage the queues at public authorities that provide services to the public (e.g., post offices). In the same office, various counters can handle different types of requests (e.g., shipping or accounts management).
 
