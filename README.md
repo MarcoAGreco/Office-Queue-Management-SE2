@@ -32,4 +32,4 @@ The system should also provide an estimate of the waiting (minimum) time for the
 
 It must be possible to know how many clients have been served for each request type.
 
-The system should provide the number of clients each counter has served, further divided by request type.
+The system should provide the number of clients each counter has served, further divided by request type. 
