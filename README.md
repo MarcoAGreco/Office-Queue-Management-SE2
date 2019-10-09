@@ -23,11 +23,13 @@ Selected tickets are considered served and removed from their queue (which is th
 
 The system sends notifications concerning the length of the queues and the tickets called at the counters. When a new ticket is opened one queue changes, therefore, the following actions must be performed:
 
-notify all the registered recipients that one of the queue lengths has changed
+* notify all the registered recipients that one of the queue lengths has changed
+
 Each time a new ticket is served (with the serveNext() method) the following actions must be performed:
 
-notify that a new ticket number is being served at a given counter;
-notify that the length of the queue associated with the type of served ticket has been shortened
+* notify that a new ticket number is being served at a given counter;
+* notify that the length of the queue associated with the type of served ticket has been shortened
+
 The system should also provide an estimate of the waiting (minimum) time for the holder of a given ticket number. The waiting time is evaluated by multiplying the number of tickets that precede the given ticket (in the queue associated with the ticket’s request type) by the service time (of that request type), and then dividing the result by the number of counters that can handle that request type. The result of the previous computation is then further incremented by half of the service time.
 
 It must be possible to know how many clients have been served for each request type.
