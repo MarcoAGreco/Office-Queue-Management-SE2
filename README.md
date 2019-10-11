@@ -1,5 +1,16 @@
-# Office Queue Management System
-## SE2
+# Office Queue Management System - Software Engineering II
+## Group Information
+**Group Identifier:** F  
+
+**Members**:
+* Greco Marco Andrea - 262624
+* Di Blasio Stefano - 263601
+* De Santiago Miguel - 274879
+* Raitano Francesco - 259760
+* Loparco Enrico - 261072
+* Cala' Giovanni - 259741
+
+## Requirements
 
 You need to develop a system to manage the queues at public authorities that provide services to the public (e.g., post offices). In the same office, various counters can handle different types of requests (e.g., shipping or accounts management).
 
@@ -34,5 +45,4 @@ The system should also provide an estimate of the waiting (minimum) time for the
 
 It must be possible to know how many clients have been served for each request type.
 
-The system should provide the number of clients each counter has served, further divided by request type. 
-
+The system should provide the number of clients each counter has served, further divided by request type.
