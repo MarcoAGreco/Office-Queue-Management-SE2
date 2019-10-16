@@ -1,7 +1,7 @@
 ---
-name: 'Story #4 - Task #1'
+name: New Tast
 about: Template to write tasks
-title: ''
+title: 'Story # - Task #'
 labels: task
 assignees: ''
 
