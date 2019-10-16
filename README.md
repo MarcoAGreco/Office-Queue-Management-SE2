@@ -10,6 +10,15 @@
 * Loparco Enrico - 261072
 * Cala' Giovanni - 259741
 
+## Timesheet
+Time spent / Time estimated (in parenthesis)
+
+**Story #1**
+
+| Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 | Task 7 | Task 8 | Task 9 | Task 10 |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| |
+
 ## Requirements
 
 You need to develop a system to manage the queues at public authorities that provide services to the public (e.g., post offices). In the same office, various counters can handle different types of requests (e.g., shipping or accounts management).
