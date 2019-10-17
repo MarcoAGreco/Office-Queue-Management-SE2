@@ -1,12 +1,13 @@
 package it.polito.se2.ticketmachine;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.lang.Thread;
 import org.json.JSONObject;
@@ -17,26 +18,22 @@ public class TicketMachineClient {
 	private BufferedReader reader;
 	private Scanner keyboard;
 	private ClientListener listener;
+	private TicketMachineGUI frame;
 	public static final int PORT_NUMBER = 1500;
 
-	public TicketMachineClient(String host, int portNumber) {
+	public TicketMachineClient(TicketMachineGUI frame, String host, int portNumber) {
+		this.frame = frame;
 		keyboard = new Scanner(System.in);
 		
-		while (!openConnection(host, portNumber)) {
-			try {
-                System.out.println("Waiting for the server...\n");
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// show pop-up with error message
-				e.printStackTrace();
-			}
+		if (!openConnection(host, portNumber)) {
+			frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			System.exit(-1);
 		}
 		
+		System.out.println("Connected to server...");
 		listener = new ClientListener();
-		System.out.println("Starting listener = : " + listener);
+		System.out.println("Starting listener...");
 		listener.start();
-		
-		listenToUserRequests();
 	}
 
 	private boolean openConnection(String host, int portNumber) {
@@ -44,12 +41,10 @@ public class TicketMachineClient {
 			clientSocket = new Socket(host, portNumber);
 		} catch (UnknownHostException e) {
 			System.err.println("Error: Unknown Host " + host);
-			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
 			System.err.println("Error: Could not open connection to " + host
 					+ " on port " + portNumber);
-			e.printStackTrace();
 			return false;
 		}
 
@@ -57,7 +52,6 @@ public class TicketMachineClient {
 			write = new PrintWriter(clientSocket.getOutputStream(), true);
 		} catch (IOException e) {
 			System.err.println("Error: Could not open output stream");
-			e.printStackTrace();
 			return false;
 		}
 
@@ -66,51 +60,54 @@ public class TicketMachineClient {
 					clientSocket.getInputStream()));
 		} catch (IOException e) {
 			System.err.println("Error: Could not open input stream");
-			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 
-	private void listenToUserRequests() {
-		while (true) {
-			String cmd = keyboard.nextLine();
-			if (cmd.equals("test"))
-				System.out.println("test");
-			else if (cmd.contentEquals("quit"))
-				break;
-			
-			JSONObject obj = new JSONObject();
-			obj.put("operation", "message");
-			obj.put("command", cmd);
+	public void sendTicketRequest(String requestType) {	
+		JSONObject obj = new JSONObject();
+		obj.put("operation", "message");
+		JSONObject content = new JSONObject();
+		content.put("request_type", requestType);
+		obj.put("content", content);
 
-//			obj.toString().getBytes();
-			System.out.print(obj);
-			write.println(obj);
-		}
+		System.out.println("Sending json to server: " + obj);
+		write.println(obj);
 	}
 
 	class ClientListener extends Thread	{
 		public void run() {
-			System.out.println("ClientListener running");
 			while (read());
 			
 			System.out.println("Server closed the connection");
-			System.exit(0);
+			System.exit(-1);
 		}
 
 		private boolean read()	{
 			try	{
-				System.out.println("Listening to socket");
 				String msg = reader.readLine();
-				if (msg == null)
+				if (msg == null) // server closed connenction
 					return false;
 
 				// parse JSON
 				JSONObject obj = new JSONObject(msg);
-				String operation = obj.getString("operation");
-				String content = obj.getString("content");
-				System.out.println("read: " + operation + " " + content);
+				JSONObject content = obj.getJSONObject("content");
+				int ticketNumber = content.getInt("ticket_number");
+				String time = content.getString("time");
+				String requestType = content.getString("request_type");
+
+				SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");  
+			    Date date = new Date();  
+				frame.showPopUp("Number: " + ticketNumber + requestType.charAt(0) + "\n" +
+									"Type: " + requestType + "\n" +
+									"Date: " + formatter.format(date) + "\n" +
+									"Time: " + time);
+
+				System.out.println("Number: " + ticketNumber + requestType.charAt(0) +
+									" Type: " + requestType +
+									" Date: " + formatter.format(date) +
+									" Time: " + time);
 			} catch (IOException e)	{
 				e.printStackTrace();
 			}

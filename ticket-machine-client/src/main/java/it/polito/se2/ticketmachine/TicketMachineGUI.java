@@ -20,9 +20,9 @@ public class TicketMachineGUI extends JFrame {
 	private JLabel lblPostOffice;
 	private JPanel contentPane;
 
-	public TicketMachineGUI(TicketMachineClient client) {
-		this.client = client;
-		
+	public TicketMachineGUI() {
+		this.client = new TicketMachineClient(this, "localhost", TicketMachineClient.PORT_NUMBER);
+
 		initComponents();
 		createEvents();
 	}
@@ -80,19 +80,23 @@ public class TicketMachineGUI extends JFrame {
 	private void createEvents() {
 		btnAccounting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Button clicked");
+				client.sendTicketRequest("Accounting");
 			}
 		});
 		
 		btnPackage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				client.sendTicketRequest("Accounting");
 			}
 		});
 	}
 	
+	public void showPopUp(String message) {
+		JOptionPane.showMessageDialog(null, message);
+	}
+	
 	public static void main(String[] args) {
-		TicketMachineClient client = new TicketMachineClient("localhost", TicketMachineClient.PORT_NUMBER);
-		TicketMachineGUI frame = new TicketMachineGUI(null);
+		TicketMachineGUI frame = new TicketMachineGUI();
 		frame.setVisible(true);
 	}
 }
