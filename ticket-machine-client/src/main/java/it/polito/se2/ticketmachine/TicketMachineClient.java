@@ -84,7 +84,7 @@ public class TicketMachineClient {
 			obj.put("operation", "message");
 			obj.put("command", cmd);
 
-			obj.toString().getBytes();
+//			obj.toString().getBytes();
 			System.out.print(obj);
 			write.println(obj);
 		}

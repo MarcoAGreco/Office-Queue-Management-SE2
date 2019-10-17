@@ -30,16 +30,8 @@ public class ServerWorker extends Thread {
 		while (true) {
 			try {
 				String msg = clientReader.readLine();
-
-				// parse JSON
-				JSONObject obj = new JSONObject(msg);
-				String operation = obj.getString("operation");
-				String content = obj.getString("content");
-				System.out.println("Message from client: " + operation + " " + content);
-				
-				if (content.equals("test")) {
-					service.send("test reply");
-				}
+				System.out.println("Message received: " + msg);
+				service.send(msg);
 			} catch (IOException e)	{
 				System.err.println("Server Worker: Could not read from client socket");
 				e.printStackTrace();
