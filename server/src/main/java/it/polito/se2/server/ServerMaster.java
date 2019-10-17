@@ -3,12 +3,15 @@ package it.polito.se2.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class ServerMaster {
 	private ServerSocket serverSocket;
 	private LinkedList<ServerWorker> allConnections = new LinkedList<>();
+	private Database database;
 	public static final int PORT_NUMBER = 1500;
+	public static final String DATABASE_CONFIG = "database.properties";
 	
 	public ServerMaster(int portNumber) {
 		try	{
@@ -16,6 +19,14 @@ public class ServerMaster {
 		} catch (IOException e) {
 			System.err.println("Server error: Opening socket failed.");
 			e.printStackTrace();
+			System.exit(-1);
+		}
+		
+		try {
+			database = new Database(DATABASE_CONFIG);
+		} catch (ClassNotFoundException | IOException | SQLException e) {
+			e.printStackTrace();
+			System.out.println("Unable to connect to database");
 			System.exit(-1);
 		}
 
