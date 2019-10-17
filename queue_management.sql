@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 17, 2019 at 04:05 PM
+-- Generation Time: Oct 18, 2019 at 12:53 AM
 -- Server version: 5.7.27-0ubuntu0.19.04.1
 -- PHP Version: 7.2.19-0ubuntu0.19.04.2
 
@@ -63,7 +63,8 @@ INSERT INTO `RequestType` (`RequestName`, `ServiceTimeMinutes`) VALUES
 CREATE TABLE IF NOT EXISTS `Ticket` (
   `TicketID` int(11) NOT NULL,
   `RequestType` varchar(50) NOT NULL,
-  `DateTime` datetime NOT NULL,
+  `Date` date NOT NULL,
+  `Time` time NOT NULL,
   `CounterAssigned` int(11) DEFAULT NULL,
   PRIMARY KEY (`TicketID`),
   KEY `CounterAssigned` (`CounterAssigned`)
