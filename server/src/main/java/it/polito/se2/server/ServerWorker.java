@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.sql.SQLException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ServerWorker extends Thread {
@@ -31,9 +33,15 @@ public class ServerWorker extends Thread {
 			try {
 				String msg = clientReader.readLine();
 				System.out.println("Message received: " + msg);
-				service.send(msg);
+				service.doService(msg);
 			} catch (IOException e)	{
 				System.err.println("Server Worker: Could not read from client socket");
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -6,10 +6,12 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import database.DatabaseMaster;
+
 public class ServerMaster {
 	private ServerSocket serverSocket;
 	private LinkedList<ServerWorker> allConnections = new LinkedList<>();
-	private Database database;
+	private DatabaseMaster database;
 	public static final int PORT_NUMBER = 1500;
 	public static final String DATABASE_CONFIG = "database.properties";
 	
@@ -23,13 +25,12 @@ public class ServerMaster {
 		}
 		
 		try {
-			database = new Database(DATABASE_CONFIG);
+			database = new DatabaseMaster(DATABASE_CONFIG);
 		} catch (ClassNotFoundException | IOException | SQLException e) {
 			e.printStackTrace();
 			System.out.println("Unable to connect to database");
 			System.exit(-1);
 		}
-
 		waitForConnection(portNumber);
 	}
 	

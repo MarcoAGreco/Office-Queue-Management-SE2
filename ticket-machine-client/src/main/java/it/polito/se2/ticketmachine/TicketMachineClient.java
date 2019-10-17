@@ -62,8 +62,7 @@ public class TicketMachineClient {
 		}
 
 		try {
-			reader = new BufferedReader(new InputStreamReader(
-					clientSocket.getInputStream()));
+			reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (IOException e) {
 			System.err.println("Error: Could not open input stream");
 			e.printStackTrace();
