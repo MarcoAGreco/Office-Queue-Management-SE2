@@ -86,7 +86,7 @@ public class TicketMachineGUI extends JFrame {
 		
 		btnPackage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				client.sendTicketRequest("Accounting");
+				client.sendTicketRequest("Package");
 			}
 		});
 	}
