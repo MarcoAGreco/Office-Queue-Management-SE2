@@ -67,18 +67,25 @@ public class Service {
 					e.printStackTrace();
 				}
 				break;
-			case "counter_setup":
-				JSONObject content = json.getJSONObject("content");
-		        String reqType = content.getString("request_type");
-
-		        int counterId = db.setupCounter(reqType); //TODO: Create DB query
-		        
-		        JSONObject response = new JSONObject();
-		        response.put("operation", "setup_response");
-		        response.put("id", counterId);
-		        
-		        clientWriter = new PrintWriter(socket.getOutputStream(), true);
-				clientWriter.println(response);
+			case "counter_setup": //TODO: Test
+				try {
+					JSONObject content = json.getJSONObject("content");
+			        String reqType = content.getString("request_type");
+	
+			        int counterId = db.setupCounter(reqType); //TODO: Create DB query
+			        
+			        JSONObject response = new JSONObject();
+			        response.put("operation", "setup_response");
+			        response.put("id", counterId);
+			        
+				
+					clientWriter = new PrintWriter(socket.getOutputStream(), true);
+					clientWriter.println(response);
+				} catch (IOException e1) {
+					System.err.println("Server Worker: Could not open output stream");
+					e1.printStackTrace();
+				}
+					
 				break;
 			default:
 				try {
