@@ -20,7 +20,7 @@ public class CounterClient {
 	private ClientListener listener;
 	private CounterGUI frame;
 	public static final int PORT_NUMBER = 1500;
-	private int CounterID = -1;
+	public static int CounterID = -1;
 	
 	public CounterClient(CounterGUI frame, String host, int portNumber) {
 		this.frame = frame;
@@ -103,7 +103,6 @@ public class CounterClient {
 	
 	
 	class ClientListener extends Thread	{
-		CounterClient counter;
 		public void run() {
 			while (read());	
 			System.out.println("Server closed the connection");
@@ -123,9 +122,9 @@ public class CounterClient {
 				switch(operation) {
 					case "setup_response":
 						int id = obj.getInt("id");
-						counter.setId(id);
+						CounterID = id;
 						//TODO: check this lines
-						System.out.println("Counter id: " + counter.getId());	
+						System.out.println("Counter id: " + CounterID);	
 					break;
 					default:
 						break;
