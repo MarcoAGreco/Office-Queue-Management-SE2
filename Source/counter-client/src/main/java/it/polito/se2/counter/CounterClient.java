@@ -20,7 +20,7 @@ public class CounterClient {
 	private ClientListener listener;
 	private CounterGUI frame;
 	public static final int PORT_NUMBER = 1500;
-	//private static id;
+	private int CounterID = -1;
 	
 	public CounterClient(CounterGUI frame, String host, int portNumber) {
 		this.frame = frame;
@@ -35,6 +35,14 @@ public class CounterClient {
 		listener = new ClientListener();
 		System.out.println("Starting listener...");
 		listener.start();
+	}
+	
+	public int getId() {
+		return CounterID;
+	}
+	
+	public void setId(int id) {
+		this.CounterID = id;
 	}
 
 	private boolean openConnection(String host, int portNumber) {
@@ -85,12 +93,14 @@ public class CounterClient {
 			content.put("request_type", reqTypes[0]);
 		else 
 			content.put("request_type", reqTypes[1]);
-		content.put("counter_id", this.getId()); //TODO: get id from server
+		
+		//content.put("counter_id", this.getId()); //TODO: get id from server
 		obj.put("content", content);
 
 		System.out.println("Sending json to server: " + obj);
 		write.println(obj);
 	}
+	
 	
 	class ClientListener extends Thread	{
 		public void run() {
@@ -104,7 +114,23 @@ public class CounterClient {
 				String msg = reader.readLine();
 				if (msg == null) // server closed connenction
 					return false;
-				System.out.println(msg);
+				System.out.println("Received from server:" +msg);
+				JSONObject obj = new JSONObject(msg);
+				
+				String operation = obj.getString("operation");
+				
+				switch(operation) {
+					case "setup_response":
+						int id = obj.getInt("id");
+						setId(id);
+						//TODO: check this lines
+						System.out.println("Counter id: "+getId());
+						
+					break;
+					default:
+						break;
+				}
+				
 			} catch (IOException e)	{
 				e.printStackTrace();
 			}
