@@ -50,5 +50,43 @@ public class DatabaseQuery
             conn.close();
         }     
     }
+    
+    public synchronized int setupCounter(String reqType) throws SQLException {
+    	int id=-1;
+        Connection conn = DatabaseMaster.getConnection();
+        
+    	try {       
+	    	String query =  "LOCK TABLES Counter WRITE;"; 
+	    	PreparedStatement pStat = conn.prepareStatement(query);
+	    	pStat.executeUpdate(query);
+             
+            
+            query = "SELECT MAX(CounterID) AS MaxID FROM Counter"; 
+            Statement stat = conn.createStatement(); 
+    		ResultSet result = stat.executeQuery(query);
+            
+    		while(result.next()) { 
+    			id = result.getInt("MaxID");
+    		}
+    		
+    		//Create a new ID
+      		id += 1;
+      		
+      		query = "INSERT INTO Counter(CounterID, RequestType) VALUES (" + id + ", '" + reqType +"')";
+      		pStat = conn.prepareStatement(query);
+      		stat.executeUpdate(query);
+    		
+    		query =  "UNLOCK TABLES;"; 
+	    	pStat = conn.prepareStatement(query);
+	    	pStat.executeUpdate(query);
+    		
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+        }     
+    	
+    	return id;
+    }
 
 }
