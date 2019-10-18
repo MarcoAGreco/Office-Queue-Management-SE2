@@ -66,7 +66,7 @@ public class Service {
 					System.err.println("Server Worker: Could not open output stream");
 					e.printStackTrace();
 				}
-				break;
+				break; /*
 			case "counter_setup":
 				JSONObject content = json.getJSONObject("content");
 		        String reqType = content.getString("request_type");
@@ -79,7 +79,7 @@ public class Service {
 		        
 		        clientWriter = new PrintWriter(socket.getOutputStream(), true);
 				clientWriter.println(response);
-				break;
+				break; */
 			default:
 				try {
 					JSONObject obj = new JSONObject();

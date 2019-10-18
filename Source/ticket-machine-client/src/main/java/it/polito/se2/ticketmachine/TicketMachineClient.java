@@ -26,7 +26,10 @@ public class TicketMachineClient {
 		keyboard = new Scanner(System.in);
 		
 		if (!openConnection(host, portNumber)) {
-			frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			if (frame != null)
+				frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			else
+				System.out.println("Unable to connect to the server...\nPlease retry later.\n");
 			System.exit(-1);
 		}
 		
@@ -78,15 +81,13 @@ public class TicketMachineClient {
 	class ClientListener extends Thread	{
 		public void run() {
 			while (read());
-			
 			System.out.println("Server closed the connection");
-			System.exit(-1);
 		}
 
 		private boolean read()	{
 			try	{
 				String msg = reader.readLine();
-				if (msg == null) // server closed connenction
+				if (msg == null) // server closed connection
 					return false;
 
 				// parse JSON
