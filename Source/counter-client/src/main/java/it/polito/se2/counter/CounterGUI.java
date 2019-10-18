@@ -135,9 +135,12 @@ public class CounterGUI extends JFrame {
 				} else if(isAcc) {
 					reqTypes[0] = "Accounting";
 					reqTypes[1] = "";
-				} else {
+				} else if(isPack){
 					reqTypes[0] = "";
 					reqTypes[1] = "Package";
+				} else {
+					showPopUp("Please select at least one request type");
+					return;
 				}
 				client.setReqTypeToCounter(reqTypes);
 			}

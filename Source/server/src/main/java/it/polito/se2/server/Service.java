@@ -26,73 +26,78 @@ public class Service {
 		this.socket = socket;
 		this.db = new DatabaseQuery();
 	}
-	
+
 	public void doService(String msg) throws JSONException, SQLException {
 		PrintWriter clientWriter;
-		
+
 		// receive JSON request from client
 		JSONObject json = new JSONObject(msg);
 		String operation = json.getString("operation");
 		System.out.print("read: " + operation + " ");
 
 		switch(operation) {
-			case "serve_next":
-				System.out.println("Server has been notified!");
-				break;
-			case "new_ticket":
-				// send JSON response to client
-				try {
-					JSONObject content = json.getJSONObject("content");
-			        String reqType = content.getString("request_type");
-			        
-			        // get correct id from db
-					int id = db.getTicketId();
-					System.out.println("Id received " + id);
-					
-					// update db -> insert new ticket
-					db.insertTicket(id, reqType);
-					
-					JSONObject obj = new JSONObject();
-					JSONObject cont = new JSONObject();
-					obj.put("operation", "new_ticket");
-					cont.put("ticket_number", id);
-					cont.put("time", new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
-					cont.put("request_type", reqType);
-					obj.put("content", cont);
-					
-					clientWriter = new PrintWriter(socket.getOutputStream(), true);
-					clientWriter.println(obj);
-				} catch (IOException e) {
-					System.err.println("Server Worker: Could not open output stream");
-					e.printStackTrace();
-				}
-				break; /*
-			case "counter_setup":
+		case "serve_next":
+			System.out.println("Server has been notified!");
+			break;
+		case "new_ticket":
+			// send JSON response to client
+			try {
 				JSONObject content = json.getJSONObject("content");
-		        String reqType = content.getString("request_type");
+				String reqType = content.getString("request_type");
 
-		        int counterId = db.setupCounter(reqType); //TODO: Create DB query
-		        
-		        JSONObject response = new JSONObject();
-		        response.put("operation", "setup_response");
-		        response.put("id", counterId);
-		        
-		        clientWriter = new PrintWriter(socket.getOutputStream(), true);
+				// get correct id from db
+				int id = db.getTicketId();
+				System.out.println("Id received " + id);
+
+				// update db -> insert new ticket
+				db.insertTicket(id, reqType);
+
+				JSONObject obj = new JSONObject();
+				JSONObject cont = new JSONObject();
+				obj.put("operation", "new_ticket");
+				cont.put("ticket_number", id);
+				cont.put("time", new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
+				cont.put("request_type", reqType);
+				obj.put("content", cont);
+
+				clientWriter = new PrintWriter(socket.getOutputStream(), true);
+				clientWriter.println(obj);
+			} catch (IOException e) {
+				System.err.println("Server Worker: Could not open output stream");
+				e.printStackTrace();
+			}
+			break;
+		case "counter_setup": //TODO: Test
+			try {
+				JSONObject content = json.getJSONObject("content");
+				String reqType = content.getString("request_type");
+
+				int counterId = db.setupCounter(reqType); 
+
+				JSONObject response = new JSONObject();
+				response.put("operation", "setup_response");
+				response.put("id", counterId);
+
+				clientWriter = new PrintWriter(socket.getOutputStream(), true);
 				clientWriter.println(response);
-				break; */
-			default:
-				try {
-					JSONObject obj = new JSONObject();
-					obj.put("operation", "operation");
-					obj.put("content", "message");
-					
-					clientWriter = new PrintWriter(socket.getOutputStream(), true);
-					clientWriter.println(obj);
-				} catch (IOException e) {
-					System.err.println("Server Worker: Could not open output stream");
-					e.printStackTrace();
-				}
-				break;
+			} catch (IOException e1) {
+				System.err.println("Server Worker: Could not open output stream");
+				e1.printStackTrace();
+			}
+			break;
+		default:
+			try {
+				JSONObject obj = new JSONObject();
+				obj.put("operation", "operation");
+				obj.put("content", "message");
+
+				clientWriter = new PrintWriter(socket.getOutputStream(), true);
+				clientWriter.println(obj);
+			} catch (IOException e) {
+				System.err.println("Server Worker: Could not open output stream");
+				e.printStackTrace();
+			}
+			break;
 		}
 	}
 }

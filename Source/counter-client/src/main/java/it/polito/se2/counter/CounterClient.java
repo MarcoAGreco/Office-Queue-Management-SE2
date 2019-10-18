@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 import org.json.JSONObject;
@@ -20,7 +18,7 @@ public class CounterClient {
 	private ClientListener listener;
 	private CounterGUI frame;
 	public static final int PORT_NUMBER = 1500;
-	//private static id;
+	public static int CounterID = -1;
 	
 	public CounterClient(CounterGUI frame, String host, int portNumber) {
 		this.frame = frame;
@@ -36,6 +34,14 @@ public class CounterClient {
 		System.out.println("Starting listener...");
 		listener.start();
 	}
+	
+	public int getId() {
+		return CounterID;
+	}
+	
+	public void setId(int id) {
+		this.CounterID = id;
+	}
 
 	private boolean openConnection(String host, int portNumber) {
 		try {
@@ -44,8 +50,7 @@ public class CounterClient {
 			System.err.println("Error: Unknown Host " + host);
 			return false;
 		} catch (IOException e) {
-			System.err.println("Error: Could not open connection to " + host
-					+ " on port " + portNumber);
+			System.err.println("Error: Could not open connection to " + host + " on port " + portNumber);
 			return false;
 		}
 
@@ -85,12 +90,13 @@ public class CounterClient {
 			content.put("request_type", reqTypes[0]);
 		else 
 			content.put("request_type", reqTypes[1]);
-		content.put("counter_id", this.getId()); //TODO: get id from server
+		
 		obj.put("content", content);
 
 		System.out.println("Sending json to server: " + obj);
 		write.println(obj);
 	}
+	
 	
 	class ClientListener extends Thread	{
 		public void run() {
@@ -104,7 +110,20 @@ public class CounterClient {
 				String msg = reader.readLine();
 				if (msg == null) // server closed connenction
 					return false;
-				System.out.println(msg);
+				System.out.println("Received from server:" +msg);
+				JSONObject obj = new JSONObject(msg);
+				
+				String operation = obj.getString("operation");
+				
+				switch(operation) {
+					case "setup_response":
+						int id = obj.getInt("id");
+						CounterID = id;
+					break;
+					default:
+						break;
+				}
+				
 			} catch (IOException e)	{
 				e.printStackTrace();
 			}
