@@ -45,7 +45,7 @@ public class Service {
 		db.insertTicket(id, reqType);
 		
 		switch(operation) {
-			case "which_req_type":
+			case "serve_next":
 				System.out.println("Server has been notified!");
 				break;
 			case "new_ticket":

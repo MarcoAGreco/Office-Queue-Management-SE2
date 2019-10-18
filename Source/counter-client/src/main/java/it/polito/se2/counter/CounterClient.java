@@ -64,10 +64,10 @@ public class CounterClient {
 		return true;
 	}
 
-	public void sendTicketRequest(String requestType) {	
+	public void serveNext(String requestType) {	
 		JSONObject obj = new JSONObject();
 		JSONObject content = new JSONObject();
-		obj.put("operation", "which_req_type");
+		obj.put("operation", "serve_next");
 		content.put("request_type", requestType);
 		obj.put("content", content);
 
@@ -77,38 +77,17 @@ public class CounterClient {
 
 	class ClientListener extends Thread	{
 		public void run() {
-			while (read());
-			
+			while (read());	
 			System.out.println("Server closed the connection");
 			System.exit(-1);
 		}
 
 		private boolean read()	{
-			
 			try	{
 				String msg = reader.readLine();
 				if (msg == null) // server closed connenction
 					return false;
 				System.out.println(msg);
-				/*
-				JSONObject obj = new JSONObject(msg);
-				JSONObject content = obj.getJSONObject("content");
-				int ticketNumber = content.getInt("ticket_number");
-				String time = content.getString("time");
-				String requestType = content.getString("request_type");
-
-				SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");  
-			    Date date = new Date();  
-				frame.showPopUp("Number: " + ticketNumber + requestType.charAt(0) + "\n" +
-									"Type: " + requestType + "\n" +
-									"Date: " + formatter.format(date) + "\n" +
-									"Time: " + time);
-
-				System.out.println("Number: " + ticketNumber + requestType.charAt(0) +
-									" Type: " + requestType +
-									" Date: " + formatter.format(date) +
-									" Time: " + time);
-				*/
 			} catch (IOException e)	{
 				e.printStackTrace();
 			}
