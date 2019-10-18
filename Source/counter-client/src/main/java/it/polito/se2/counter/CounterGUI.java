@@ -126,9 +126,22 @@ public class CounterGUI extends JFrame {
 	private void createEvents() {
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO: Client interaction
+				String[] reqTypes = new String[2];
+				boolean isAcc = chckbxAccounting.isSelected();
+				boolean isPack = chckbxPackage.isSelected();
+				if(isAcc && isPack) {
+					reqTypes[0] = "Accounting";
+					reqTypes[1] = "Package";
+				} else if(isAcc) {
+					reqTypes[0] = "Accounting";
+					reqTypes[1] = "";
+				} else {
+					reqTypes[0] = "";
+					reqTypes[1] = "Package";
+				}
+				client.setReqTypeToCounter(reqTypes);
 			}
-		});
+		});		
 		
 		btnServeNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

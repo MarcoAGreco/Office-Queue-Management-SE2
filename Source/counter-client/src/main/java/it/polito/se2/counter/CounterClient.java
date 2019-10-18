@@ -20,7 +20,8 @@ public class CounterClient {
 	private ClientListener listener;
 	private CounterGUI frame;
 	public static final int PORT_NUMBER = 1500;
-
+	private static id;
+	
 	public CounterClient(CounterGUI frame, String host, int portNumber) {
 		this.frame = frame;
 		keyboard = new Scanner(System.in);
@@ -67,11 +68,31 @@ public class CounterClient {
 	public void serveNext() {	
 		JSONObject obj = new JSONObject();
 		obj.put("operation", "serve_next");
-
+		
 		System.out.println("Sending json to server: " + obj);
 		write.println(obj);
 	}
 
+	public void setReqTypeToCounter(String[] reqTypes) {
+		JSONObject obj = new JSONObject();
+		JSONObject content = new JSONObject();
+
+		obj.put("operation", "set_req_type");
+		
+		if(!reqTypes[0].isEmpty() && !reqTypes[1].isEmpty()) {
+			content.put("request_type1", reqTypes[0]);
+			content.put("request_type2", reqTypes[1]);
+		} else if(!reqTypes[0].isEmpty())
+			content.put("request_type1", reqTypes[0]);
+		else 
+			content.put("request_type2", reqTypes[1]);
+
+		obj.put("content", content);
+
+		System.out.println("Sending json to server: " + obj);
+		write.println(obj);
+	}
+	
 	class ClientListener extends Thread	{
 		public void run() {
 			while (read());	
