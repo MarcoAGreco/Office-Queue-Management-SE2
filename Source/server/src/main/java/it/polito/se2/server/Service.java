@@ -45,6 +45,9 @@ public class Service {
 		db.insertTicket(id, reqType);
 		
 		switch(operation) {
+			case "which_req_type":
+				System.out.println("Server has been notified!");
+				break;
 			case "new_ticket":
 				// send JSON response to client
 				try {
