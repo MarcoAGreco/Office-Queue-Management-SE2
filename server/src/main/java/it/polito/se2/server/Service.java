@@ -3,7 +3,11 @@ package it.polito.se2.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DatabaseMaster;
 import database.DatabaseQuery;
 
 public class Service {
@@ -31,9 +36,10 @@ public class Service {
 		String operation = json.getString("operation");
         String reqType = content.getString("request_type");
 		System.out.println("read: " + operation + " " + reqType);
-		
+				
 		// get correct id from db
 		int id = db.getTicketId();
+		System.out.println("Id received " + id);
 		
 		// update db -> insert new ticket
 		db.insertTicket(id, reqType);
@@ -46,12 +52,10 @@ public class Service {
 					JSONObject obj = new JSONObject();
 					JSONObject cont = new JSONObject();
 					obj.put("operation", "new_ticket");
-					obj.put("content", cont);
 					cont.put("ticket_number", id);
-					cont.put("time", new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime()));
+					cont.put("time", new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
 					cont.put("request_type", reqType);
-						
-					obj.toString().getBytes();
+					obj.put("content", cont);
 					
 					clientWriter = new PrintWriter(socket.getOutputStream(), true);
 					clientWriter.println(obj);
@@ -65,7 +69,6 @@ public class Service {
 					JSONObject obj = new JSONObject();
 					obj.put("operation", "operation");
 					obj.put("content", "message");
-					obj.toString().getBytes();
 					
 					clientWriter = new PrintWriter(socket.getOutputStream(), true);
 					clientWriter.println(obj);

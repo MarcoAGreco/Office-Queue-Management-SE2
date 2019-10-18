@@ -66,7 +66,7 @@ public class TicketMachineClient {
 
 	public void sendTicketRequest(String requestType) {	
 		JSONObject obj = new JSONObject();
-		obj.put("operation", "message");
+		obj.put("operation", "new_ticket");
 		JSONObject content = new JSONObject();
 		content.put("request_type", requestType);
 		obj.put("content", content);
@@ -90,13 +90,14 @@ public class TicketMachineClient {
 					return false;
 
 				// parse JSON
+				System.out.println(msg);
 				JSONObject obj = new JSONObject(msg);
 				JSONObject content = obj.getJSONObject("content");
 				int ticketNumber = content.getInt("ticket_number");
 				String time = content.getString("time");
 				String requestType = content.getString("request_type");
 
-				SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");  
+				SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");  
 			    Date date = new Date();  
 				frame.showPopUp("Number: " + ticketNumber + requestType.charAt(0) + "\n" +
 									"Type: " + requestType + "\n" +
