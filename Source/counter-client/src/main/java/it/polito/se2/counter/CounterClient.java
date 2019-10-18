@@ -20,7 +20,7 @@ public class CounterClient {
 	private ClientListener listener;
 	private CounterGUI frame;
 	public static final int PORT_NUMBER = 1500;
-	private static id;
+	//private static id;
 	
 	public CounterClient(CounterGUI frame, String host, int portNumber) {
 		this.frame = frame;
@@ -77,16 +77,15 @@ public class CounterClient {
 		JSONObject obj = new JSONObject();
 		JSONObject content = new JSONObject();
 
-		obj.put("operation", "set_req_type");
+		obj.put("operation", "counter_setup");
 		
-		if(!reqTypes[0].isEmpty() && !reqTypes[1].isEmpty()) {
-			content.put("request_type1", reqTypes[0]);
-			content.put("request_type2", reqTypes[1]);
-		} else if(!reqTypes[0].isEmpty())
-			content.put("request_type1", reqTypes[0]);
+		if(!reqTypes[0].isEmpty() && !reqTypes[1].isEmpty())
+			content.put("request_type", reqTypes[0] + "/" + reqTypes[1]);
+		else if(!reqTypes[0].isEmpty())
+			content.put("request_type", reqTypes[0]);
 		else 
-			content.put("request_type2", reqTypes[1]);
-
+			content.put("request_type", reqTypes[1]);
+		content.put("counter_id", this.getId()); //TODO: get id from server
 		obj.put("content", content);
 
 		System.out.println("Sending json to server: " + obj);
