@@ -78,14 +78,12 @@ public class Service {
 			        response.put("operation", "setup_response");
 			        response.put("id", counterId);
 			        
-				
 					clientWriter = new PrintWriter(socket.getOutputStream(), true);
 					clientWriter.println(response);
 				} catch (IOException e1) {
 					System.err.println("Server Worker: Could not open output stream");
 					e1.printStackTrace();
 				}
-					
 				break;
 			default:
 				try {

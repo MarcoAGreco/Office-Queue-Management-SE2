@@ -59,7 +59,6 @@ public class DatabaseQuery
 	    	String query =  "LOCK TABLES Counter WRITE;"; 
 	    	PreparedStatement pStat = conn.prepareStatement(query);
 	    	pStat.executeUpdate(query);
-             
             
             query = "SELECT MAX(CounterID) AS MaxID FROM Counter"; 
             Statement stat = conn.createStatement(); 

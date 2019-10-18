@@ -103,6 +103,7 @@ public class CounterClient {
 	
 	
 	class ClientListener extends Thread	{
+		CounterClient counter;
 		public void run() {
 			while (read());	
 			System.out.println("Server closed the connection");
@@ -122,10 +123,9 @@ public class CounterClient {
 				switch(operation) {
 					case "setup_response":
 						int id = obj.getInt("id");
-						setId(id);
+						counter.setId(id);
 						//TODO: check this lines
-						System.out.println("Counter id: "+getId());
-						
+						System.out.println("Counter id: " + counter.getId());	
 					break;
 					default:
 						break;
