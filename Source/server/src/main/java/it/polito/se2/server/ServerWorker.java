@@ -33,7 +33,11 @@ public class ServerWorker extends Thread {
 			try {
 				String msg = clientReader.readLine();
 				System.out.println("Message received: " + msg);
-				service.doService(msg);
+				if(msg != null && !msg.isEmpty()){
+					service.doService(msg);
+				} else { //Null or empty message
+					return;
+				}
 			} catch (IOException e)	{
 				System.err.println("Server Worker: Could not read from client socket");
 				e.printStackTrace();
