@@ -46,7 +46,6 @@ public class Service {
 		
 		switch(operation) {
 			case "new_ticket":
-				System.out.println("Sono entrato!");
 				// send JSON response to client
 				try {
 					JSONObject obj = new JSONObject();
