@@ -67,6 +67,21 @@ public class Service {
 					e.printStackTrace();
 				}
 				break;
+			case "counter_setup":
+				JSONObject content = json.getJSONObject("content");
+		        String reqType = content.getString("request_type");
+		        
+		        //TODO: Create DB query
+		        int counterId = db.setupCounter(reqType);
+		        
+		        JSONObject response = new JSONObject();
+		        
+		        response.put("operation", "setup_response");
+		        response.put("id", counterId);
+		        
+		        clientWriter = new PrintWriter(socket.getOutputStream(), true);
+				clientWriter.println(response);
+				break;
 			default:
 				try {
 					JSONObject obj = new JSONObject();
