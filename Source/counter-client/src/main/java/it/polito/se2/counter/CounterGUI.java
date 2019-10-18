@@ -33,7 +33,7 @@ public class CounterGUI extends JFrame {
 	private JLabel lblCurrentTicket;
 
 	public CounterGUI() {
-		//this.client = new CounterClient(this, "localhost", CounterClient.PORT_NUMBER);
+		this.client = new CounterClient(this, "localhost", CounterClient.PORT_NUMBER);
 
 		initComponents();
 		createEvents();
@@ -132,7 +132,7 @@ public class CounterGUI extends JFrame {
 		
 		btnServeNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO: Client interaction
+				client.serveNext();
 			}
 		});
 	}

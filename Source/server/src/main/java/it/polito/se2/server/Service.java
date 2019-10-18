@@ -32,18 +32,9 @@ public class Service {
 		
 		// receive JSON request from client
 		JSONObject json = new JSONObject(msg);
-        JSONObject content = json.getJSONObject("content");
 		String operation = json.getString("operation");
-        String reqType = content.getString("request_type");
-		System.out.println("read: " + operation + " " + reqType);
-				
-		// get correct id from db
-		int id = db.getTicketId();
-		System.out.println("Id received " + id);
-		
-		// update db -> insert new ticket
-		db.insertTicket(id, reqType);
-		
+		System.out.print("read: " + operation + " ");
+
 		switch(operation) {
 			case "serve_next":
 				System.out.println("Server has been notified!");
@@ -51,6 +42,16 @@ public class Service {
 			case "new_ticket":
 				// send JSON response to client
 				try {
+					JSONObject content = json.getJSONObject("content");
+			        String reqType = content.getString("request_type");
+			        
+			        // get correct id from db
+					int id = db.getTicketId();
+					System.out.println("Id received " + id);
+					
+					// update db -> insert new ticket
+					db.insertTicket(id, reqType);
+					
 					JSONObject obj = new JSONObject();
 					JSONObject cont = new JSONObject();
 					obj.put("operation", "new_ticket");

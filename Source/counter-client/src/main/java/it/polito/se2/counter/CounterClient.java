@@ -64,12 +64,9 @@ public class CounterClient {
 		return true;
 	}
 
-	public void serveNext(String requestType) {	
+	public void serveNext() {	
 		JSONObject obj = new JSONObject();
-		JSONObject content = new JSONObject();
 		obj.put("operation", "serve_next");
-		content.put("request_type", requestType);
-		obj.put("content", content);
 
 		System.out.println("Sending json to server: " + obj);
 		write.println(obj);
