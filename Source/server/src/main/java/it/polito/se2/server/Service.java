@@ -72,7 +72,7 @@ public class Service {
 					JSONObject content = json.getJSONObject("content");
 			        String reqType = content.getString("request_type");
 	
-			        int counterId = db.setupCounter(reqType); //TODO: Create DB query
+			        int counterId = db.setupCounter(reqType); 
 			        
 			        JSONObject response = new JSONObject();
 			        response.put("operation", "setup_response");

@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 import org.json.JSONObject;
@@ -52,8 +50,7 @@ public class CounterClient {
 			System.err.println("Error: Unknown Host " + host);
 			return false;
 		} catch (IOException e) {
-			System.err.println("Error: Could not open connection to " + host
-					+ " on port " + portNumber);
+			System.err.println("Error: Could not open connection to " + host + " on port " + portNumber);
 			return false;
 		}
 
@@ -94,7 +91,6 @@ public class CounterClient {
 		else 
 			content.put("request_type", reqTypes[1]);
 		
-		//content.put("counter_id", this.getId()); //TODO: get id from server
 		obj.put("content", content);
 
 		System.out.println("Sending json to server: " + obj);
@@ -123,8 +119,6 @@ public class CounterClient {
 					case "setup_response":
 						int id = obj.getInt("id");
 						CounterID = id;
-						//TODO: check this lines
-						System.out.println("Counter id: " + CounterID);	
 					break;
 					default:
 						break;
