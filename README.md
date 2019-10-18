@@ -1,4 +1,4 @@
-# Office Queue Management System - Software Engineering II
+# Office Queue Management System - Software Engineering II 
 ## Group Information
 **Group Identifier:** F  
 
