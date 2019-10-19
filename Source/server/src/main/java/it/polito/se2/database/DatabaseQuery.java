@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DatabaseQuery 
@@ -104,27 +105,56 @@ public class DatabaseQuery
         }
     }
     
-    public synchronized int getTicketToServe(int counterID) throws SQLException {
-    	int tickedId = 0;
+    public synchronized String getTicketToServe(int counterID) throws SQLException {
+    	int ticketId = -1;
+    	String requestType = "";
+    	ArrayList<String> allowedRequestType = new ArrayList<>();
     	
     	try {
-    		String query =  "LOCK TABLES QueueInfo WRITE; "
-    				+ "LOCK TABLES QueueInfo READ;"; 
-	    	PreparedStatement pStat = connection.prepareStatement(query);
-	    	pStat.executeUpdate(query);
-	    	
-            query = "SELECT RequestType AS RequesType FROM QueueInfo LIMIT 1"; //Top1 
+    		 
+    		String query = "SELECT RequestType AS RequesType FROM Counter WHERE CounterID = "+counterID; //Top1 
             Statement stat = connection.createStatement(); 
-    		ResultSet result = stat.executeQuery(query);
+     		ResultSet result = stat.executeQuery(query);
+             
+     		while(result.next()) { 
+     			allowedRequestType.add(result.getString("RequesType")); //TODO: NOT IMPLEMENTED
+     		}
+     		
+            query = "SELECT RequestType AS RequesType FROM QueueInfo LIMIT 1"; //Top1 
+            stat = connection.createStatement(); 
+    		result = stat.executeQuery(query);
             
     		while(result.next()) { 
-    			
+    			requestType = result.getString("RequesType");
     		}
+    		
+    		query = "SELECT TicketID FROM Ticket "
+    				+ "WHERE date = (SELECT MIN(date) FROM Ticket WHERE CounterAssigned IS NULL) "
+    				+ "AND time = (SELECT MIN(time) FROM Ticket WHERE CounterAssigned IS NULL) "
+    				+ "FOR UPDATE;";
+    		
+    		stat = connection.createStatement(); 
+    		result = stat.executeQuery(query);
+            
+    		while(result.next()) { 
+    			ticketId = result.getInt("TicketID");
+    			System.out.println("Ticket that need to be served: "+ticketId);
+    		}
+    		
+    		if(ticketId >= 0) {
+    			query = "UPDATE Ticket SET CounterAssigned = "+counterID+" WHERE TicketID = "+ticketId+";";
+    			System.out.println("Query: "+ query);
+    			PreparedStatement pStat = connection.prepareStatement(query);
+          		stat.executeUpdate(query);
+    		} else {
+    			System.out.println("No pending tickets");
+    		}
+    		
         } catch (SQLException e) {
             System.out.println("SQLException: impossibile effettuare la query al database.");            
         }
     	
-    	return tickedId;
+    	return String.valueOf(ticketId);
     }
 
 }
