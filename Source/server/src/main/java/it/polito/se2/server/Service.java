@@ -40,7 +40,15 @@ public class Service {
 
 		switch(operation) {
 		case "serve_next":
-			//String tickedID = db.getTicketToServe(json.getInt("id")); //TODO: To be implemented 
+			int counterID = json.getInt("id");
+			//String tickedID = db.getTicketToServe(counterID); //TODO: To be implemented 
+			JSONObject response = new JSONObject();
+			
+			response.put("operation", "serve");
+			response.put("counterID", counterID);
+			//response.put("ticketID", tickedID);
+			
+			db.updateQueueInfo();
 			
 			break;
 		case "new_ticket":
@@ -83,7 +91,8 @@ public class Service {
 
 				int counterId = db.setupCounter(reqType); 
 
-				JSONObject response = new JSONObject();
+				//TODO: Check these lines
+				response = new JSONObject();
 				response.put("operation", "setup_response");
 				response.put("id", counterId);
 

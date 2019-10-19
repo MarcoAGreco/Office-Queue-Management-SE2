@@ -84,10 +84,17 @@ public class DatabaseQuery
     
     public void updateQueueInfo() throws SQLException {   	
     	try {
-    		String queryA = "DROP VIEW IF EXISTS QueueInfo;"; 
-    		String queryB = "CREATE VIEW QueueInfo AS (SELECT COUNT(*) AS QueueLenght, RequestType as RequestType FROM Ticket WHERE CounterAssigned IS NULL GROUP BY RequestType); ";
+    		String queryA = "DROP VIEW IF EXISTS QueueInfo;";    		
+    		String queryB = "CREATE VIEW QueueInfo AS "
+    				+ "(SELECT COUNT(*) AS QueueLenght, RequestType as RequestType "
+    				+ "FROM Ticket "
+    				+ "WHERE CounterAssigned IS NULL "
+    				+ "GROUP BY RequestType "
+    				+ "ORDER BY RequestType DESC);";
+    		
     		PreparedStatement pStat = connection.prepareStatement(queryA);
     		pStat.executeUpdate(queryA);
+    		
     		pStat = connection.prepareStatement(queryB);
     		pStat.executeUpdate(queryB);
     		
@@ -101,7 +108,12 @@ public class DatabaseQuery
     	int tickedId = 0;
     	
     	try {
-            String query = "SELECT RequestType AS RequesType FROM QueueInfo"; 
+    		String query =  "LOCK TABLES QueueInfo WRITE; "
+    				+ "LOCK TABLES QueueInfo READ;"; 
+	    	PreparedStatement pStat = connection.prepareStatement(query);
+	    	pStat.executeUpdate(query);
+	    	
+            query = "SELECT RequestType AS RequesType FROM QueueInfo LIMIT 1"; //Top1 
             Statement stat = connection.createStatement(); 
     		ResultSet result = stat.executeQuery(query);
             
