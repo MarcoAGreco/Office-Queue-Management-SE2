@@ -71,6 +71,10 @@ public class CounterClient {
 	}
 
 	public void serveNext() {	
+		if(CounterID == -1) {
+			frame.showPopUp("Please configure the counter!");
+			return;
+		}
 		JSONObject obj = new JSONObject();
 		obj.put("operation", "serve_next");
 		obj.put("id", CounterID);
@@ -120,6 +124,10 @@ public class CounterClient {
 					case "setup_response":
 						int id = obj.getInt("id");
 						CounterID = id;
+					break;
+					case "serve":
+						String ticketID = obj.getString("ticketID");
+						frame.servingTicket(ticketID);
 					break;
 					default:
 						break;
