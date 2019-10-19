@@ -37,7 +37,8 @@ public class Service {
 
 		switch(operation) {
 		case "serve_next":
-			System.out.println("Server has been notified!");
+			//String tickedID = db.getTicketToServe(json.getInt("id")); //TODO: To be implemented 
+			
 			break;
 		case "new_ticket":
 			// send JSON response to client
@@ -51,6 +52,9 @@ public class Service {
 
 				// update db -> insert new ticket
 				db.insertTicket(id, reqType);
+				
+				//update db -> update view queueInfo
+				db.updateQueueInfo();
 
 				JSONObject obj = new JSONObject();
 				JSONObject cont = new JSONObject();

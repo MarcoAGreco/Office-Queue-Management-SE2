@@ -71,9 +71,11 @@ public class DatabaseQuery
     		//Create a new ID
       		id += 1;
       		
-      		query = "INSERT INTO Counter(CounterID, RequestType) VALUES (" + id + ", '" + reqType +"')";
-      		pStat = conn.prepareStatement(query);
-      		stat.executeUpdate(query);
+      		for(String type : reqType.split(("/"))){
+      			query = "INSERT INTO Counter(CounterID, RequestType) VALUES (" + id + ", '" + type +"')";
+          		pStat = conn.prepareStatement(query);
+          		stat.executeUpdate(query);
+      		}
     		
     		query =  "UNLOCK TABLES;"; 
 	    	pStat = conn.prepareStatement(query);
@@ -86,6 +88,46 @@ public class DatabaseQuery
         }     
     	
     	return id;
+    }
+    
+    public void updateQueueInfo() throws SQLException {
+        Connection conn = DatabaseMaster.getConnection();
+    	
+    	try {
+    		String queryA = "DROP VIEW IF EXISTS QueueInfo;"; 
+    		String queryB = "CREATE VIEW QueueInfo AS (SELECT COUNT(*) AS QueueLenght, RequestType as RequestType FROM Ticket WHERE CounterAssigned IS NULL GROUP BY RequestType); ";
+    		PreparedStatement pStat = conn.prepareStatement(queryA);
+    		pStat.executeUpdate(queryA);
+    		pStat = conn.prepareStatement(queryB);
+    		pStat.executeUpdate(queryB);
+    		
+    		
+    	}catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+        }   
+    }
+    
+    public synchronized int getTicketToServe(int counterID) throws SQLException {
+    	int tickedId = 0;
+    	Connection conn = DatabaseMaster.getConnection();
+    	
+    	try {
+            String query = "SELECT RequestType AS RequesType FROM QueueInfo"; 
+            Statement stat = conn.createStatement(); 
+    		ResultSet result = stat.executeQuery(query);
+            
+    		while(result.next()) { 
+    			
+    		}
+        } catch (SQLException e) {
+            System.out.println("SQLException: impossibile effettuare la query al database.");            
+        } finally {
+            conn.close(); 
+        }
+    	
+    	return tickedId;
     }
 
 }
