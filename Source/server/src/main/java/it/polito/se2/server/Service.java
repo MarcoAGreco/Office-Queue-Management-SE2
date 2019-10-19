@@ -40,15 +40,23 @@ public class Service {
 
 		switch(operation) {
 		case "serve_next":
-			int counterID = json.getInt("id");
-			//String tickedID = db.getTicketToServe(counterID); //TODO: To be implemented 
-			JSONObject response = new JSONObject();
-			
-			response.put("operation", "serve");
-			response.put("counterID", counterID);
-			//response.put("ticketID", tickedID);
-			
-			db.updateQueueInfo();
+			try {
+				int counterID = json.getInt("id");
+				String tickedID = db.getTicketToServe(counterID); //TODO: To be implemented 
+				JSONObject response = new JSONObject();
+				
+				response.put("operation", "serve");
+				response.put("counterID", counterID);
+				response.put("ticketID", tickedID);
+				
+				db.updateQueueInfo();
+				clientWriter = new PrintWriter(socket.getOutputStream(), true);
+				clientWriter.println(response);
+				
+			} catch (IOException e) {
+				System.err.println("Server Worker: Could not open output stream");
+				e.printStackTrace();
+			}
 			
 			break;
 		case "new_ticket":
@@ -92,7 +100,7 @@ public class Service {
 				int counterId = db.setupCounter(reqType); 
 
 				//TODO: Check these lines
-				response = new JSONObject();
+				JSONObject response = new JSONObject();
 				response.put("operation", "setup_response");
 				response.put("id", counterId);
 
