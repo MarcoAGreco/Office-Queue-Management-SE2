@@ -100,10 +100,12 @@ public class TicketMachineClient {
 
 				SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");  
 			    Date date = new Date();  
-				frame.showPopUp("Number: " + ticketNumber + requestType.charAt(0) + "\n" +
+			    if (frame != null) {
+			    	frame.showPopUp("Number: " + ticketNumber + requestType.charAt(0) + "\n" +
 									"Type: " + requestType + "\n" +
 									"Date: " + formatter.format(date) + "\n" +
 									"Time: " + time);
+			    }
 
 				System.out.println("Number: " + ticketNumber + requestType.charAt(0) +
 									" Type: " + requestType +

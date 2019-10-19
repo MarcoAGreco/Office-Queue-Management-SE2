@@ -25,7 +25,6 @@ public class DatabaseQuery
         Statement stat = connection.createStatement(); 
         ResultSet result = stat.executeQuery(query);
         
-        System.out.println(query);
         while(result.next()) { 
         	max = result.getInt("MaxTicket");
         }
