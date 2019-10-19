@@ -33,7 +33,7 @@ public class DatabaseMaster {
         //DriverManager.getConnection(url, username, password);
     }
     
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         //stabilisco la connessione tra l'applicazione Java e il database tramite "getConnection()" della classe "DriverManager"
         return (Connection) DriverManager.getConnection(url, username, password);
     }

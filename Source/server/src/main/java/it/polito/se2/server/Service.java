@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,11 +21,13 @@ import it.polito.se2.database.DatabaseQuery;
 
 public class Service {
 	private Socket socket;
+//	Connection connection;
 	private DatabaseQuery db;
 
-	public Service(Socket socket) {
+	public Service(Socket socket, Connection connection) {
 		this.socket = socket;
-		this.db = new DatabaseQuery();
+//		this.connection = connection;
+		this.db = new DatabaseQuery(connection);
 	}
 
 	public void doService(String msg) throws JSONException, SQLException {
@@ -47,7 +50,9 @@ public class Service {
 				String reqType = content.getString("request_type");
 
 				// get correct id from db
-				int id = db.getTicketId();
+//				Connection connection = DatabaseMaster.getConnection();
+				int id = db.getTicketId(new Date(Calendar.getInstance().getTime().getTime()));
+//				connection.close();
 				System.out.println("Id received " + id);
 
 				// update db -> insert new ticket

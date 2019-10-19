@@ -4,17 +4,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import it.polito.se2.database.DatabaseMaster;
+
 public class ServerWorker extends Thread {
 	private Socket client;
+	private Connection connection;
 	private BufferedReader clientReader;
 
-	public ServerWorker(Socket client) {
+	public ServerWorker(Socket client, Connection connection) throws SQLException {
 		this.client = client;
+		this.connection = connection;
 
 		try {
 			clientReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -27,7 +32,7 @@ public class ServerWorker extends Thread {
 	}
 
 	public void run() {
-		Service service = new Service(client);
+		Service service = new Service(client, connection);
 
 		while (true) {
 			try {
