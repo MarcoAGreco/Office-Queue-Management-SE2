@@ -157,8 +157,17 @@ public class CounterGUI extends JFrame {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
+	public void servingTicket(String ticketID) {
+		if("-1".equals(ticketID)) {
+			lblCurrentTicket.setText("Current ticket: No more pending tickets");
+		} else {
+			lblCurrentTicket.setText("Current ticket: "+ticketID);
+		}
+	}
+
 	public static void main(String[] args) {
 		CounterGUI frame = new CounterGUI();
 		frame.setVisible(true);
 	}
+
 }
