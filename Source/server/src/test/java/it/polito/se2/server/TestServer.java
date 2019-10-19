@@ -65,7 +65,7 @@ class TestServer {
 	}
 
 	@Test
-	void test() throws Throwable {
+	void testIntegration() throws Throwable {
 		final Waiter waiter = new Waiter();
 
 		// send request to server to ticket type "TEST_TYPE"
@@ -73,43 +73,42 @@ class TestServer {
 			TicketMachineClient client = new TicketMachineClient(null, "localhost", 1500);
 			client.sendTicketRequest("TEST_TYPE");
 		}).start();
-		
-		new Thread(() -> {
-			try (
-				ServerSocket serverSocket = new ServerSocket(1500);
-				Socket socketClient = serverSocket.accept();
-				BufferedReader clientReader = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
-			) {
-				// receive request from client
-				String msg = clientReader.readLine();
-				// System.out.println("Message received: " + msg);
 
-				// parse json
-				JSONObject json = new JSONObject(msg);
-				String operation = json.getString("operation");
-				JSONObject content = json.getJSONObject("content");
-				String reqType = content.getString("request_type");
-				
-				// check the content of the request
-				if(msg != null && !msg.isEmpty()) {
-					waiter.assertEquals("new_ticket", operation);
-					waiter.assertEquals("TEST_TYPE", reqType);
+		// server: handle request from client
+		try (
+			ServerSocket serverSocket = new ServerSocket(1500);
+			Socket socketClient = serverSocket.accept();
+			BufferedReader clientReader = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+		) {
+			// receive request from client
+			String msg = clientReader.readLine();
+			// System.out.println("Message received: " + msg);
 
-					// check correctness of ticket number returned
-					DatabaseQuery query = new DatabaseQuery(connection);
-					int ticketNumber = query.getTicketId(testDate);
+			// parse json
+			JSONObject json = new JSONObject(msg);
+			String operation = json.getString("operation");
+			JSONObject content = json.getJSONObject("content");
+			String reqType = content.getString("request_type");
 
-					waiter.assertEquals(5, ticketNumber);
-				} else {
-					waiter.fail("Unable to read client request");
-				}
-				serverSocket.close();
-				socketClient.close();
-			} catch (Exception e) {
-				waiter.fail();
+			// check the content of the request
+			if(msg != null && !msg.isEmpty()) {
+				waiter.assertEquals("new_ticket", operation);
+				waiter.assertEquals("TEST_TYPE", reqType);
+
+				// check correctness of ticket number returned
+				DatabaseQuery query = new DatabaseQuery(connection);
+				int ticketNumber = query.getTicketId(testDate);
+
+				waiter.assertEquals(5, ticketNumber);
+			} else {
+				waiter.fail("Unable to read client request");
 			}
-			waiter.resume();
-		}).start();
+			serverSocket.close();
+			socketClient.close();
+		} catch (Exception e) {
+			waiter.fail();
+		}
+		waiter.resume();
 
 		waiter.await();
 	}
