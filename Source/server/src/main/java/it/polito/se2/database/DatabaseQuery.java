@@ -95,9 +95,17 @@ public class DatabaseQuery
     	
     	try {
     		String queryA = "DROP VIEW IF EXISTS QueueInfo;"; 
-    		String queryB = "CREATE VIEW QueueInfo AS (SELECT COUNT(*) AS QueueLenght, RequestType as RequestType FROM Ticket WHERE CounterAssigned IS NULL GROUP BY RequestType); ";
+    		
+    		String queryB = "CREATE VIEW QueueInfo AS "
+    				+ "(SELECT COUNT(*) AS QueueLenght, RequestType as RequestType "
+    				+ "FROM Ticket "
+    				+ "WHERE CounterAssigned IS NULL "
+    				+ "GROUP BY RequestType "
+    				+ "ORDER BY RequestType DESC);";
+    		
     		PreparedStatement pStat = conn.prepareStatement(queryA);
     		pStat.executeUpdate(queryA);
+    		
     		pStat = conn.prepareStatement(queryB);
     		pStat.executeUpdate(queryB);
     		
@@ -114,7 +122,12 @@ public class DatabaseQuery
     	Connection conn = DatabaseMaster.getConnection();
     	
     	try {
-            String query = "SELECT RequestType AS RequesType FROM QueueInfo"; 
+    		String query =  "LOCK TABLES QueueInfo WRITE; "
+    				+ "LOCK TABLES QueueInfo READ;"; 
+	    	PreparedStatement pStat = conn.prepareStatement(query);
+	    	pStat.executeUpdate(query);
+	    	
+            query = "SELECT RequestType AS RequesType FROM QueueInfo LIMIT 1"; //Top1 
             Statement stat = conn.createStatement(); 
     		ResultSet result = stat.executeQuery(query);
             
