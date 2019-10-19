@@ -73,6 +73,7 @@ public class CounterClient {
 	public void serveNext() {	
 		JSONObject obj = new JSONObject();
 		obj.put("operation", "serve_next");
+		obj.put("id", CounterID);
 		
 		System.out.println("Sending json to server: " + obj);
 		write.println(obj);
