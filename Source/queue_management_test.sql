@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `Ticket` (
   `Date` date NOT NULL,
   `Time` time NOT NULL,
   `CounterAssigned` int(11) DEFAULT NULL,
-  PRIMARY KEY (`TicketID`),
+  PRIMARY KEY (`TicketID`, `Date`),
   KEY `CounterAssigned` (`CounterAssigned`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
