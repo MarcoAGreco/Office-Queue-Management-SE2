@@ -66,9 +66,7 @@ public class Service {
 				String reqType = content.getString("request_type");
 
 				// get correct id from db
-//				Connection connection = DatabaseMaster.getConnection();
 				int id = db.getTicketId(new Date(Calendar.getInstance().getTime().getTime()));
-//				connection.close();
 				System.out.println("Id received " + id);
 
 				// update db -> insert new ticket
@@ -92,14 +90,14 @@ public class Service {
 				e.printStackTrace();
 			}
 			break;
-		case "counter_setup": //TODO: Test
+		case "counter_setup":
 			try {
 				JSONObject content = json.getJSONObject("content");
 				String reqType = content.getString("request_type");
+				int counterId = content.getInt("id");
+				
+				counterId = db.setupCounter(reqType, counterId); 
 
-				int counterId = db.setupCounter(reqType); 
-
-				//TODO: Check these lines
 				JSONObject response = new JSONObject();
 				response.put("operation", "setup_response");
 				response.put("id", counterId);

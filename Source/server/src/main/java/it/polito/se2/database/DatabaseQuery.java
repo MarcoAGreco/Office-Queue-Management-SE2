@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 
 public class DatabaseQuery 
 {
@@ -47,25 +48,39 @@ public class DatabaseQuery
         } 
     }
     
-    public synchronized int setupCounter(String reqType) throws SQLException {
-    	int id=-1;        
+    public synchronized int setupCounter(String reqType, int counterID) throws SQLException {
+    	int id = counterID;        
     	try {       
-	    	String query =  "LOCK TABLES Counter WRITE;"; 
+	    	String query =  "LOCK TABLES Counter WRITE;";
 	    	PreparedStatement pStat = connection.prepareStatement(query);
-	    	pStat.executeUpdate(query);
-            
-            query = "SELECT MAX(CounterID) AS MaxID FROM Counter"; 
-            Statement stat = connection.createStatement(); 
-    		ResultSet result = stat.executeQuery(query);
-            
-    		while(result.next()) { 
-    			id = result.getInt("MaxID");
-    		}
-    		
-    		//Create a new ID
-      		id += 1;
+    		pStat.executeUpdate(query);
+    		Statement stat = connection.createStatement(); 
+
+	    	// calculate the new ID, if the counter does not already have one
+	    	if (counterID == -1) {
+	    		query = "SELECT DISTINCT CounterID FROM Counter"; 
+	    		ResultSet result = stat.executeQuery(query);
+
+	    		// the new id obtained as the lowest non already existing id
+	    		HashSet<Integer> alreadyExistingIds = new HashSet<>();
+	    		while(result.next()) { 
+	    			alreadyExistingIds.add(result.getInt("CounterID"));
+	    		}
+
+	    		int i = 1;
+	    		while (alreadyExistingIds.contains(i)) {
+	    			i++;
+	    		}
+	    		id = i;
+	    	}
+	    	
+	    	// delete entry related to the counter id
+  			query = "DELETE FROM Counter WHERE CounterID = '" + id + "'";
+  			pStat = connection.prepareStatement(query);
+      		stat.executeUpdate(query);
       		
-      		for(String type : reqType.split(("/"))){
+  			// add the new entries
+      		for(String type : reqType.split(("/"))){     			 
       			query = "INSERT INTO Counter(CounterID, RequestType) VALUES (" + id + ", '" + type +"')";
           		pStat = connection.prepareStatement(query);
           		stat.executeUpdate(query);

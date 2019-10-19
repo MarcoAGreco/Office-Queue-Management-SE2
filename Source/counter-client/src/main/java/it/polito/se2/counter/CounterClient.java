@@ -14,18 +14,19 @@ public class CounterClient {
 	private Socket clientSocket;
 	private PrintWriter write;
 	private BufferedReader reader;
-	private Scanner keyboard;
 	private ClientListener listener;
 	private CounterGUI frame;
+	private int CounterID = -1;
 	public static final int PORT_NUMBER = 1500;
-	public static int CounterID = -1;
 	
 	public CounterClient(CounterGUI frame, String host, int portNumber) {
 		this.frame = frame;
-		keyboard = new Scanner(System.in);
 		
 		if (!openConnection(host, portNumber)) {
-			frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			if (frame != null)
+				frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			else
+				System.out.println("Unable to connect to the server...\nPlease retry later.\n");
 			System.exit(-1);
 		}
 		
@@ -72,7 +73,10 @@ public class CounterClient {
 
 	public void serveNext() {	
 		if(CounterID == -1) {
-			frame.showPopUp("Please configure the counter!");
+			if (frame != null)
+				frame.showPopUp("Please configure the counter!");
+			else 
+				System.out.println("Please configure the counter!");
 			return;
 		}
 		JSONObject obj = new JSONObject();
@@ -96,6 +100,7 @@ public class CounterClient {
 		else 
 			content.put("request_type", reqTypes[1]);
 		
+		content.put("id", CounterID);
 		obj.put("content", content);
 
 		System.out.println("Sending json to server: " + obj);
@@ -127,7 +132,8 @@ public class CounterClient {
 					break;
 					case "serve":
 						String ticketID = obj.getString("ticketID");
-						frame.servingTicket(ticketID);
+						if (frame != null)
+							frame.servingTicket(ticketID);
 					break;
 					default:
 						break;
