@@ -105,14 +105,13 @@ public class DatabaseQuery
     				+ "FROM Ticket "
     				+ "WHERE CounterAssigned IS NULL "
     				+ "GROUP BY RequestType "
-    				+ "ORDER BY RequestType DESC);";
+    				+ "ORDER BY QueueLength DESC);";
     		
     		PreparedStatement pStat = connection.prepareStatement(queryA);
     		pStat.executeUpdate(queryA);
     		
     		pStat = connection.prepareStatement(queryB);
     		pStat.executeUpdate(queryB);
-    		
     		
     	}catch(SQLException e) {
             e.printStackTrace();
@@ -125,7 +124,6 @@ public class DatabaseQuery
     	ArrayList<String> allowedRequestType = new ArrayList<>();
     	
     	try {
-    		 
     		String query = "SELECT RequestType AS RequesType FROM Counter WHERE CounterID = "+counterID; //Top1 
             Statement stat = connection.createStatement(); 
      		ResultSet result = stat.executeQuery(query);
@@ -152,12 +150,12 @@ public class DatabaseQuery
             
     		while(result.next()) { 
     			ticketId = result.getInt("TicketID");
-    			System.out.println("Ticket that need to be served: "+ticketId);
+    			System.out.println("Ticket that need to be served: " + ticketId);
     		}
     		
     		if(ticketId >= 0) {
-    			query = "UPDATE Ticket SET CounterAssigned = "+counterID+" WHERE TicketID = "+ticketId+";";
-    			System.out.println("Query: "+ query);
+    			query = "UPDATE Ticket SET CounterAssigned = " + counterID + " WHERE TicketID = " + ticketId + ";";
+    			System.out.println("Query: " + query);
     			PreparedStatement pStat = connection.prepareStatement(query);
           		stat.executeUpdate(query);
     		} else {
