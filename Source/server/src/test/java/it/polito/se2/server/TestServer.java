@@ -63,7 +63,29 @@ class TestServer {
 
 		assertEquals(5, ticketNumber);
 	}
+	@Test
+	void testInsertTicket() throws SQLException {
+		DatabaseQuery db = new DatabaseQuery(connection);
+		db.insertTicket(300, "TEST_TYPE");
+		
+		String query = "SELECT count(*) as cntTestTicket FROM ticket WHERE TicketID=300";
+		Statement stat = connection.createStatement(); 
+		ResultSet result = stat.executeQuery(query);
+		int value = 0;
+		while(result.next()) { 
+			value = result.getInt("cntTestTicket");
+		}
+		assertEquals(1, value);
 
+		try { 
+			String query2 = "DELETE FROM ticket WHERE TicketID=300";
+			PreparedStatement stat2 = connection.prepareStatement(query);
+			stat2.executeUpdate(query2);
+		} catch(SQLException e) {
+		    e.printStackTrace();
+		}        
+	}
+	
 	@Test
 	void testIntegration() throws Throwable {
 		final Waiter waiter = new Waiter();
