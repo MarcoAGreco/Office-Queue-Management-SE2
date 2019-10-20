@@ -23,7 +23,10 @@ public class TicketBoardClient {
 		keyboard = new Scanner(System.in);
 		
 		if (!openConnection(host, portNumber)) {
-			frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			if (frame != null)
+				frame.showPopUp("Unable to connect to the server...\nPlease retry later.\n");
+			else
+				System.out.println("Unable to connect to the server...\nPlease retry later.\n");
 			System.exit(-1);
 		}
 		
@@ -88,7 +91,8 @@ public class TicketBoardClient {
 						String lastTicketServed = obj.getString("lastTicket");
 						int counterID = obj.getInt("counterID"); //-1 for queuelenght update only
 				
-						frame.updateGUI(queueALenght,queueBLenght, lastTicketServed, counterID);
+						if (frame != null)
+							frame.updateGUI(queueALenght,queueBLenght, lastTicketServed, counterID);
 					break;
 					default:
 						break;

@@ -41,7 +41,7 @@ public class TicketBoardGUI extends JFrame {
 	private final Component horizontalGlue = Box.createHorizontalGlue();
 
 	public TicketBoardGUI() {
-		//this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
+		this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
 
 		initComponents();
 	}

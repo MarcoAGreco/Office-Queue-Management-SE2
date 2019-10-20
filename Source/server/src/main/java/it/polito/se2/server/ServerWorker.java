@@ -12,10 +12,12 @@ public class ServerWorker extends Thread {
 	private Socket client;
 	private Connection connection;
 	private BufferedReader clientReader;
+	private ServerMaster master;
 
-	public ServerWorker(Socket client, Connection connection) throws SQLException {
+	public ServerWorker(Socket client, Connection connection, ServerMaster master) throws SQLException {
 		this.client = client;
 		this.connection = connection;
+		this.master = master;
 
 		try {
 			clientReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -28,7 +30,7 @@ public class ServerWorker extends Thread {
 	}
 
 	public void run() {
-		Service service = new Service(client, connection);
+		Service service = new Service(client, connection, master);
 
 		while (true) {
 			try {

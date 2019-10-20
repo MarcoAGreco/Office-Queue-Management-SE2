@@ -44,7 +44,7 @@ public class ServerMaster {
 			try	{
 				Socket client = serverSocket.accept();
 				sockets.add(client);
-				new ServerWorker(client, connection);
+				new ServerWorker(client, connection, this);
 				System.out.println("New connection");
 			} catch (IOException e)	{
 				System.err.println("Server error: Failed to connect to client.");
@@ -53,7 +53,7 @@ public class ServerMaster {
 		}
 	}
 
-	public static void broadcast(JSONObject message) {
+	public void broadcast(JSONObject message) {
         try {
             for (Socket socket : sockets) {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);

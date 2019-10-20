@@ -93,6 +93,9 @@ public class TicketMachineClient {
 				// parse JSON
 				System.out.println(msg);
 				JSONObject obj = new JSONObject(msg);
+				if (!obj.get("operation").equals("new_ticket"))
+					return true;
+				
 				JSONObject content = obj.getJSONObject("content");
 				int ticketNumber = content.getInt("ticket_number");
 				String time = content.getString("time");

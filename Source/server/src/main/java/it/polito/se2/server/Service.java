@@ -5,27 +5,24 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import it.polito.se2.database.DatabaseMaster;
 import it.polito.se2.database.DatabaseQuery;
 
 public class Service {
 	private Socket socket;
 	//	Connection connection;
 	private DatabaseQuery db;
+	ServerMaster master;
 
-	public Service(Socket socket, Connection connection) {
+	public Service(Socket socket, Connection connection, ServerMaster master) {
 		this.socket = socket;
 		//		this.connection = connection;
 		this.db = new DatabaseQuery(connection);
+		this.master = master;
 	}
 
 	public void doService(String msg) throws JSONException, SQLException {
@@ -35,12 +32,13 @@ public class Service {
 		JSONObject json = new JSONObject(msg);
 		String operation = json.getString("operation");
 		System.out.print("read: " + operation + " ");
+		Date todayDate = new Date(Calendar.getInstance().getTime().getTime());
 
 		switch(operation) {
 		case "serve_next":
 			try {
 				int counterID = json.getInt("id");
-				int ticketID = db.selectTicketToServe(counterID, new Date(Calendar.getInstance().getTime().getTime()));
+				int ticketID = db.selectTicketToServe(counterID, todayDate);
 
 				JSONObject response = new JSONObject();
 				response.put("operation", "serve");
@@ -52,11 +50,11 @@ public class Service {
 				// Send JSON to all clients -> only 'board-client' will handle it 
 				JSONObject resp = new JSONObject();
 				resp.put("operation", "queue_update");
-				resp.put("queueALenght", queueALenght); //TODO: get queueALenght
-				resp.put("queueBLenght", queueBLenght); //TODO: get queueBLenght
-				resp.put("lastTicket", lastTicket);		//TODO: get lastTicket
-				resp.put("counterID", counterID);		//TODO: get counterID
-				ServerMaster.broadcast(resp);
+				resp.put("queueALenght", db.getQueueLength("Accounting", todayDate));
+				resp.put("queueBLenght", db.getQueueLength("Package", todayDate));
+				resp.put("lastTicket", ticketID);
+				resp.put("counterID", counterID);
+				master.broadcast(resp);
 				
 			} catch (IOException e) {
 				System.err.println("Server Worker: Could not open output stream");
@@ -70,7 +68,7 @@ public class Service {
 				String reqType = content.getString("request_type");
 
 				// get correct id from db
-				int id = db.getTicketId(new Date(Calendar.getInstance().getTime().getTime()));
+				int id = db.getTicketId(todayDate);
 				System.out.println("Id received " + id);
 				
 				db.insertTicket(id, reqType); // update db -> insert new ticket
@@ -90,11 +88,9 @@ public class Service {
 				// Send JSON to all clients -> only 'board-client' will handle it 
 				JSONObject resp = new JSONObject();
 				resp.put("operation", "queue_update");
-				resp.put("queueALenght", queueALenght); //TODO: get queueALenght
-				resp.put("queueBLenght", queueBLenght); //TODO: get queueBLenght
-				resp.put("lastTicket", lastTicket);		//TODO: get lastTicket
-				resp.put("counterID", counterID);		//TODO: get counterID
-				ServerMaster.broadcast(resp);
+				resp.put("queueALenght", db.getQueueLength("Accounting", todayDate));
+				resp.put("queueBLenght", db.getQueueLength("Package", todayDate));
+				master.broadcast(resp);
 				
 			} catch (IOException e) {
 				System.err.println("Server Worker: Could not open output stream");

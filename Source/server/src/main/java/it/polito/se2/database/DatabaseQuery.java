@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashSet;
 
 public class DatabaseQuery 
@@ -235,6 +236,20 @@ public class DatabaseQuery
             e.printStackTrace();
         }   
     	return ticketToServe;
+	}
+
+	public int getQueueLength(String requestType, Date todayDate) throws SQLException {
+		int queueLength = 0;
+        String query = "SELECT COUNT(*) AS QueueLength FROM Ticket WHERE Date = '" + todayDate + "' AND "
+        		+ "CounterAssigned IS NULL AND RequestType = '" + requestType + "'"; 
+        Statement stat = connection.createStatement();
+        ResultSet result = stat.executeQuery(query);
+        
+        if (result.next()) { 
+        	queueLength = result.getInt("QueueLength");
+        }
+        
+        return queueLength;
 	}
 
 }
