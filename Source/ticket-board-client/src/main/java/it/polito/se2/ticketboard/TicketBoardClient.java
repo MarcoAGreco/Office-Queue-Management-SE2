@@ -17,7 +17,6 @@ public class TicketBoardClient {
 	private ClientListener listener;
 	private TicketBoardGUI frame;
 	public static final int PORT_NUMBER = 1500;
-	public static int CounterID = -1;
 	
 	public TicketBoardClient(TicketBoardGUI frame, String host, int portNumber) {
 		this.frame = frame;
@@ -34,14 +33,6 @@ public class TicketBoardClient {
 		listener.start();
 	}
 	
-	public int getId() {
-		return CounterID;
-	}
-	
-	public void setId(int id) {
-		this.CounterID = id;
-	}
-
 	private boolean openConnection(String host, int portNumber) {
 		try {
 			clientSocket = new Socket(host, portNumber);
@@ -91,9 +82,14 @@ public class TicketBoardClient {
 				String operation = obj.getString("operation");
 				
 				switch(operation) {
-					case "setup_response":
-						int id = obj.getInt("id");
-						CounterID = id;
+					case "queue_update":
+						int queueALenght = obj.getInt("queueALenght");
+						int queueBLenght = obj.getInt("queueBLenght");
+						String lastTicketServed = obj.getString("lastTicket");
+						int counterID = obj.getInt("counterID"); //-1 for queuelenght update only
+						
+						frame.updateGUI(queueALenght,queueBLenght, lastTicketServed, counterID);
+						
 					break;
 					default:
 						break;

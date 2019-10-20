@@ -29,14 +29,13 @@ public class TicketBoardGUI extends JFrame {
 	private JLabel lblCounter1;
 	private JLabel lblCounter2;
 	private JLabel lblCounter3;
-	JLabel lblQueue1 = new JLabel("00A1");
-	
-	JLabel lblQueue2;
-	JLabel lbQueue3;
-	JLabel lblAccounting;
-	JLabel lblPackage;
-	JLabel lblQueueAccountingNO;	
-	JLabel lblQueuePackageNO;
+	private JLabel lblQueue1 = new JLabel("00A1");
+	private JLabel lblQueue2;
+	private JLabel lblQueue3;
+	private JLabel lblAccounting;
+	private JLabel lblPackage;
+	private JLabel lblQueueAccountingNO;	
+	private JLabel lblQueuePackageNO;
 
 	
 	private final Component horizontalGlue = Box.createHorizontalGlue();
@@ -65,8 +64,8 @@ public class TicketBoardGUI extends JFrame {
 		lblQueue1.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblQueue2 = new JLabel("00A1");
 		lblQueue2.setFont(new Font("Dialog", Font.BOLD, 21));
-		lbQueue3 = new JLabel("00A1");
-		lbQueue3.setFont(new Font("Dialog", Font.BOLD, 21));
+		lblQueue3 = new JLabel("00A1");
+		lblQueue3.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblAccounting = new JLabel("Accounting queue:");
 		lblAccounting.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblPackage = new JLabel("Package queue:");
@@ -107,7 +106,7 @@ public class TicketBoardGUI extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_mainPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblCounter3, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-								.addComponent(lbQueue3, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblQueue3, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_mainPane.createSequentialGroup()
 							.addGroup(gl_mainPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblAccounting, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
@@ -145,7 +144,7 @@ public class TicketBoardGUI extends JFrame {
 											.addGap(44))
 										.addGroup(gl_mainPane.createSequentialGroup()
 											.addGap(28)
-											.addComponent(lbQueue3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
+											.addComponent(lblQueue3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
 								.addGroup(gl_mainPane.createSequentialGroup()
 									.addComponent(separator, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)))
@@ -170,6 +169,34 @@ public class TicketBoardGUI extends JFrame {
 	public void showPopUp(String message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
+	
+	public void updateGUI(int lenghtA, int lenghtB, String lastTicket, int counterID) {
+		switch(counterID) {
+		case 1:
+			lblQueue1.setText(lastTicket);
+			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
+			lblQueuePackageNO.setText(String.valueOf(lenghtB));		
+			break;
+		case 2:
+			lblQueue2.setText(lastTicket);
+			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
+			lblQueuePackageNO.setText(String.valueOf(lenghtB));
+			break;
+		case 3:
+			lblQueue3.setText(lastTicket);
+			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
+			lblQueuePackageNO.setText(String.valueOf(lenghtB));
+			break;
+		case -1:
+			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
+			lblQueuePackageNO.setText(String.valueOf(lenghtB));
+			break;
+		default:
+			break;
+		}
+		
+	}
+	
 	
 	public static void main(String[] args) {
 		TicketBoardGUI frame = new TicketBoardGUI();

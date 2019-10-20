@@ -105,8 +105,8 @@ public class DatabaseQuery
     				+ "(SELECT COUNT(*) AS QueueLenght, RequestType as RequestType "
     				+ "FROM Ticket "
     				+ "WHERE CounterAssigned IS NULL "
-    				+ "GROUP BY RequestType "
-    				+ "ORDER BY QueueLength DESC);";
+    				+ "GROUP BY RequestType )"
+    				+ "ORDER BY QueueLenght DESC;";
     		
     		PreparedStatement pStat = connection.prepareStatement(queryA);
     		pStat.executeUpdate(queryA);
