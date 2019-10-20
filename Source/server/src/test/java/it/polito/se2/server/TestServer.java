@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -43,8 +44,8 @@ class TestServer {
 	public void init() throws IOException, ClassNotFoundException, SQLException {
 		String url, username, password;
 		Properties properties = new Properties();
-		FileInputStream in = new FileInputStream(DATABASE_CONFIG_TEST);
-		properties.load(in); // load the file .properties
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream(DATABASE_CONFIG_TEST);
+		properties.load(in);  // load the file .properties
 
 		String driver = properties.getProperty("jdbc.driver");
 		url = properties.getProperty("jdbc.url");

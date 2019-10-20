@@ -3,6 +3,7 @@ package it.polito.se2.database;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ public class DatabaseMaster {
     
     public DatabaseMaster(String configFile) throws IOException, ClassNotFoundException, SQLException {
         Properties properties = new Properties();
-        FileInputStream in = new FileInputStream(configFile);
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream(configFile);
 		properties.load(in); // load the file .properties
         
         String driver = properties.getProperty("jdbc.driver");
@@ -29,12 +30,9 @@ public class DatabaseMaster {
         
         if (driver != null) 
             Class.forName(driver);
-        
-        //DriverManager.getConnection(url, username, password);
-    }
+            }
     
     public Connection getConnection() throws SQLException {
-        //stabilisco la connessione tra l'applicazione Java e il database tramite "getConnection()" della classe "DriverManager"
         return (Connection) DriverManager.getConnection(url, username, password);
     }
 
