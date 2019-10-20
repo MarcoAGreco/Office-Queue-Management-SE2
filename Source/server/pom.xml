@@ -25,5 +25,10 @@
 			<artifactId>ticket-machine-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>it.polito.se2</groupId>
+			<artifactId>counter-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>		
 	</dependencies>
 </project>
