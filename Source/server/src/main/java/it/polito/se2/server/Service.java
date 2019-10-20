@@ -21,12 +21,12 @@ import it.polito.se2.database.DatabaseQuery;
 
 public class Service {
 	private Socket socket;
-//	Connection connection;
+	//	Connection connection;
 	private DatabaseQuery db;
 
 	public Service(Socket socket, Connection connection) {
 		this.socket = socket;
-//		this.connection = connection;
+		//		this.connection = connection;
 		this.db = new DatabaseQuery(connection);
 	}
 
@@ -42,22 +42,19 @@ public class Service {
 		case "serve_next":
 			try {
 				int counterID = json.getInt("id");
-				String tickedID = db.getTicketToServe(counterID); //TODO: To be implemented 
+				int ticketID = db.selectTicketToServe(counterID, new Date(Calendar.getInstance().getTime().getTime()));
+
 				JSONObject response = new JSONObject();
-				
 				response.put("operation", "serve");
 				response.put("counterID", counterID);
-				response.put("ticketID", tickedID);
-				
-				db.updateQueueInfo();
+				response.put("ticketID", ticketID);
 				clientWriter = new PrintWriter(socket.getOutputStream(), true);
 				clientWriter.println(response);
-				
 			} catch (IOException e) {
 				System.err.println("Server Worker: Could not open output stream");
 				e.printStackTrace();
 			}
-			
+
 			break;
 		case "new_ticket":
 			// send JSON response to client
@@ -71,7 +68,7 @@ public class Service {
 
 				// update db -> insert new ticket
 				db.insertTicket(id, reqType);
-				
+
 				//update db -> update view queueInfo
 				db.updateQueueInfo();
 
@@ -95,7 +92,7 @@ public class Service {
 				JSONObject content = json.getJSONObject("content");
 				String reqType = content.getString("request_type");
 				int counterId = content.getInt("id");
-				
+
 				counterId = db.setupCounter(reqType, counterId); 
 
 				JSONObject response = new JSONObject();
