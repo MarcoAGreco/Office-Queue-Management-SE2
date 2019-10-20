@@ -6,11 +6,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import it.polito.se2.database.DatabaseMaster;
 
 public class ServerWorker extends Thread {
 	private Socket client;

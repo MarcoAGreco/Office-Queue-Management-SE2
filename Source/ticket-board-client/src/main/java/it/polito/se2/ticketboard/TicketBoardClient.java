@@ -87,9 +87,8 @@ public class TicketBoardClient {
 						int queueBLenght = obj.getInt("queueBLenght");
 						String lastTicketServed = obj.getString("lastTicket");
 						int counterID = obj.getInt("counterID"); //-1 for queuelenght update only
-						
+				
 						frame.updateGUI(queueALenght,queueBLenght, lastTicketServed, counterID);
-						
 					break;
 					default:
 						break;

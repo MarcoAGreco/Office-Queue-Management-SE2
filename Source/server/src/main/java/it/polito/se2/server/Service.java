@@ -11,11 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import it.polito.se2.database.DatabaseMaster;
 import it.polito.se2.database.DatabaseQuery;
 
@@ -50,11 +48,20 @@ public class Service {
 				response.put("ticketID", ticketID);
 				clientWriter = new PrintWriter(socket.getOutputStream(), true);
 				clientWriter.println(response);
+				
+				// Send JSON to all clients -> only 'board-client' will handle it 
+				JSONObject resp = new JSONObject();
+				resp.put("operation", "queue_update");
+				resp.put("queueALenght", queueALenght); //TODO: get queueALenght
+				resp.put("queueBLenght", queueBLenght); //TODO: get queueBLenght
+				resp.put("lastTicket", lastTicket);		//TODO: get lastTicket
+				resp.put("counterID", counterID);		//TODO: get counterID
+				ServerMaster.broadcast(resp);
+				
 			} catch (IOException e) {
 				System.err.println("Server Worker: Could not open output stream");
 				e.printStackTrace();
 			}
-
 			break;
 		case "new_ticket":
 			// send JSON response to client
@@ -65,12 +72,9 @@ public class Service {
 				// get correct id from db
 				int id = db.getTicketId(new Date(Calendar.getInstance().getTime().getTime()));
 				System.out.println("Id received " + id);
-
-				// update db -> insert new ticket
-				db.insertTicket(id, reqType);
-
-				//update db -> update view queueInfo
-				db.updateQueueInfo();
+				
+				db.insertTicket(id, reqType); // update db -> insert new ticket
+				db.updateQueueInfo(); //update db -> update view queueInfo
 
 				JSONObject obj = new JSONObject();
 				JSONObject cont = new JSONObject();
@@ -82,6 +86,16 @@ public class Service {
 
 				clientWriter = new PrintWriter(socket.getOutputStream(), true);
 				clientWriter.println(obj);
+				
+				// Send JSON to all clients -> only 'board-client' will handle it 
+				JSONObject resp = new JSONObject();
+				resp.put("operation", "queue_update");
+				resp.put("queueALenght", queueALenght); //TODO: get queueALenght
+				resp.put("queueBLenght", queueBLenght); //TODO: get queueBLenght
+				resp.put("lastTicket", lastTicket);		//TODO: get lastTicket
+				resp.put("counterID", counterID);		//TODO: get counterID
+				ServerMaster.broadcast(resp);
+				
 			} catch (IOException e) {
 				System.err.println("Server Worker: Could not open output stream");
 				e.printStackTrace();
