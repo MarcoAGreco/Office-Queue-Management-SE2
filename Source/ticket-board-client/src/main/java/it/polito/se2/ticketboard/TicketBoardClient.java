@@ -91,8 +91,9 @@ public class TicketBoardClient {
 						String lastTicketServed = obj.getString("lastTicket");
 						int counterID = obj.getInt("counterID"); //-1 for queuelenght update only
 				
-						if (frame != null)
+						if (frame != null) {
 							frame.updateGUI(queueALenght,queueBLenght, lastTicketServed, counterID);
+						}
 					break;
 					default:
 						break;

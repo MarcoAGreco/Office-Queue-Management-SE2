@@ -29,7 +29,7 @@ public class TicketBoardGUI extends JFrame {
 	private JLabel lblCounter1;
 	private JLabel lblCounter2;
 	private JLabel lblCounter3;
-	private JLabel lblQueue1 = new JLabel("00A1");
+	private JLabel lblQueue1;
 	private JLabel lblQueue2;
 	private JLabel lblQueue3;
 	private JLabel lblAccounting;
@@ -37,23 +37,54 @@ public class TicketBoardGUI extends JFrame {
 	private JLabel lblQueueAccountingNO;	
 	private JLabel lblQueuePackageNO;
 
-	
+
 	private final Component horizontalGlue = Box.createHorizontalGlue();
 
+	public String getLblQueue1() {
+		return lblQueue1.getText();
+	}
+	public String getLblQueue2() {
+		return lblQueue2.getText();
+	}
+	public String getLblQueue3() {
+		return lblQueue3.getText();
+	}
+	public void setLblQueue1(String ticketNumber) {
+		lblQueue1.setText(ticketNumber);
+	}
+	public void setLblQueue2(String ticketNumber) {
+		lblQueue2.setText(ticketNumber);
+	}
+	public void setLblQueue3(String ticketNumber) {
+		lblQueue3.setText(ticketNumber);
+	}
+	public String getLblAccountingNo() {
+		return lblQueueAccountingNO.getText();
+	}
+	public void setLblAccountingNo(String accQueueNo) {
+		lblQueueAccountingNO.setText(accQueueNo);
+	}
+	public String getLblPackageNo() {
+		return lblQueuePackageNO.getText();
+	}
+	public void setLblPackageNo(String packQueueNo) {
+		lblQueuePackageNO.setText(packQueueNo);
+	}
+
 	public TicketBoardGUI() {
-		this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
+		//this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
 
 		initComponents();
 	}
-	
+
 	private void initComponents() {
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		mainPane = new JPanel();
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));		
 		setContentPane(mainPane);
-		
+
 		lblCounter1 = new JLabel("Counter 1");
 		lblCounter1.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblCounter2 = new JLabel("Counter 2");
@@ -74,15 +105,15 @@ public class TicketBoardGUI extends JFrame {
 		lblQueueAccountingNO.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblQueuePackageNO = new JLabel("00");
 		lblQueuePackageNO.setFont(new Font("Dialog", Font.BOLD, 21));
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
-		
+
 		JSeparator separator_2 = new JSeparator();
-		
+
 		JSeparator separator_3 = new JSeparator();
 		GroupLayout gl_mainPane = new GroupLayout(mainPane);
 		gl_mainPane.setHorizontalGroup(
@@ -165,11 +196,11 @@ public class TicketBoardGUI extends JFrame {
 		);
 		mainPane.setLayout(gl_mainPane);
 	}
-	
+
 	public void showPopUp(String message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
-	
+
 	public void updateGUI(int lenghtA, int lenghtB, String lastTicket, int counterID) {
 		switch(counterID) {
 		case 1:
@@ -196,7 +227,6 @@ public class TicketBoardGUI extends JFrame {
 		}
 		
 	}
-	
 	
 	public static void main(String[] args) {
 		TicketBoardGUI frame = new TicketBoardGUI();
