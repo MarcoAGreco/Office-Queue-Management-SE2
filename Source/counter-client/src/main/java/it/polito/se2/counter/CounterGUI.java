@@ -156,6 +156,7 @@ public class CounterGUI extends JFrame {
 					return;
 				}
 				client.setReqTypeToCounter(reqTypes);
+				showPopUp("Success: Request types selected correctly");
 			}
 		});		
 		
