@@ -30,7 +30,7 @@ USE `queue_management_test`;
 -- Struttura della tabella `counter`
 --
 
-CREATE TABLE IF NOT EXISTS `counter` (
+CREATE TABLE IF NOT EXISTS `Counter` (
   `CounterID` int(11) NOT NULL,
   `RequestType` varchar(50) NOT NULL,
   PRIMARY KEY (`CounterID`,`RequestType`)
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `counter` (
 -- Dump dei dati per la tabella `counter`
 --
 
-INSERT INTO `counter` (`CounterID`, `RequestType`) VALUES
+INSERT INTO `Counter` (`CounterID`, `RequestType`) VALUES
 (1, 'Accounting'),
 (1, 'Package'),
 (2, 'Accounting');
@@ -51,7 +51,7 @@ INSERT INTO `counter` (`CounterID`, `RequestType`) VALUES
 -- Struttura della tabella `requesttype`
 --
 
-CREATE TABLE IF NOT EXISTS `requesttype` (
+CREATE TABLE IF NOT EXISTS `RequestType` (
   `RequestName` varchar(50) NOT NULL,
   `ServiceTimeMinutes` int(11) NOT NULL,
   PRIMARY KEY (`RequestName`)
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `requesttype` (
 -- Dump dei dati per la tabella `requesttype`
 --
 
-INSERT INTO `requesttype` (`RequestName`, `ServiceTimeMinutes`) VALUES
+INSERT INTO `RequestType` (`RequestName`, `ServiceTimeMinutes`) VALUES
 ('Accounting', 15),
 ('Package', 10);
 
@@ -71,7 +71,7 @@ INSERT INTO `requesttype` (`RequestName`, `ServiceTimeMinutes`) VALUES
 -- Struttura della tabella `ticket`
 --
 
-CREATE TABLE IF NOT EXISTS `ticket` (
+CREATE TABLE IF NOT EXISTS `Ticket` (
   `TicketID` int(11) NOT NULL,
   `RequestType` varchar(50) NOT NULL,
   `Date` date NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
 -- Dump dei dati per la tabella `ticket`
 --
 
-INSERT INTO `ticket` (`TicketID`, `RequestType`, `Date`, `Time`, `CounterAssigned`) VALUES
+INSERT INTO `Ticket` (`TicketID`, `RequestType`, `Date`, `Time`, `CounterAssigned`) VALUES
 (1, 'Accounting', '2019-10-18', '10:21:33', NULL),
 (2, 'Package', '2019-10-18', '10:21:38', NULL),
 (3, 'Accounting', '2019-10-18', '10:21:46', NULL),
@@ -96,7 +96,7 @@ INSERT INTO `ticket` (`TicketID`, `RequestType`, `Date`, `Time`, `CounterAssigne
 --
 
 --
--- Limiti per la tabella `ticket`
+-- Limiti per la tabella `Ticket`
 --
 
 
