@@ -75,7 +75,6 @@ public class TicketBoardClient {
 		public void run() {
 			while (read());	
 			System.out.println("Server closed the connection");
-			System.exit(-1);
 		}
 
 		private boolean read()	{
