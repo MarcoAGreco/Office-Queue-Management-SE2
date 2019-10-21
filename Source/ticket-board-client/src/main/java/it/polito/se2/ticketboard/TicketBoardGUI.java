@@ -74,6 +74,7 @@ public class TicketBoardGUI extends JFrame {
 	public TicketBoardGUI() {
 		this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
 		initComponents();
+		client.askForUpdate();
 	}
 
 	private void initComponents() {
@@ -200,9 +201,15 @@ public class TicketBoardGUI extends JFrame {
 		JOptionPane.showMessageDialog(null, message);
 	}
 
-	public void updateGUI(int lenghtA, int lenghtB, String lastTicket, int counterID) {
-		lblQueueAccountingNO.setText(String.valueOf(lenghtA));
-		lblQueuePackageNO.setText(String.valueOf(lenghtB));
+	public void updateGUI(int lengthA, int lengthB, String lastTicket, int counterID) {
+		
+		System.out.println("LengthA: "+lengthA+" "
+						+ "LengthB: "+lengthB+" "
+						+ "counterid: "+counterID+" "
+						+ "last ticket: "+ lastTicket);
+		
+		lblQueueAccountingNO.setText(String.valueOf(lengthA));
+		lblQueuePackageNO.setText(String.valueOf(lengthB));
 		
 		System.out.println(lastTicket + " " + counterID);
 		switch(counterID) {

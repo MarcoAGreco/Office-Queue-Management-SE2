@@ -63,8 +63,12 @@ public class TicketBoardClient {
 		return true;
 	}
 	
-	void updateGUI() {
+	public void askForUpdate() {
+		JSONObject obj = new JSONObject();
+		obj.put("operation", "require_update");
 		
+		System.out.println("Sending json to server: " + obj);
+		write.println(obj);
 	}
 	
 	class ClientListener extends Thread	{
@@ -86,6 +90,7 @@ public class TicketBoardClient {
 				
 				switch(operation) {
 					case "queue_update":
+						System.out.println("DEBUG: queue");
 						int queueALenght = obj.getInt("queueALenght");
 						int queueBLenght = obj.getInt("queueBLenght");
 						String lastTicketServed = obj.getString("lastTicket");

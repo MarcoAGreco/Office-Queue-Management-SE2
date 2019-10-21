@@ -121,6 +121,16 @@ public class Service {
 		case "goodbye":
 			db.deleteCounter(json.getInt("counterID"));
 			break;
+		case "require_update":
+				// Send JSON to all clients -> only 'board-client' will handle it 
+				JSONObject resp = new JSONObject();
+				resp.put("operation", "queue_update");
+				resp.put("queueALenght", db.getQueueLength("Accounting", todayDate));
+				resp.put("queueBLenght", db.getQueueLength("Package", todayDate));
+				resp.put("lastTicket", "-");
+				resp.put("counterID", -1);
+				master.broadcast(resp);
+			break;
 		default:
 			try {
 				JSONObject obj = new JSONObject();
