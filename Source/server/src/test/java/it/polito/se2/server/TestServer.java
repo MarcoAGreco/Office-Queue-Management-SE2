@@ -98,9 +98,9 @@ class TestServer {
 	@Test
 	void testServeNext() throws SQLException {
 		DatabaseQuery db = new DatabaseQuery(connection);
-		int ticket = db.selectTicketToServe(1, testDate);
+		String ticket = db.selectTicketToServe(1, testDate);
 		//System.out.println("hi :"+ ticket);
-		assertEquals(1, ticket);
+		assertEquals("1", ticket);
 		
 	try { 
 		String query = "UPDATE Ticket SET CounterAssigned = NULL WHERE Ticket.TicketID = 1 AND Ticket.Date = '2019-10-18'";
