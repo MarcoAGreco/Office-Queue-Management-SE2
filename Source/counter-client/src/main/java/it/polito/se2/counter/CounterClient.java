@@ -131,7 +131,7 @@ public class CounterClient {
 						CounterID = id;
 					break;
 					case "serve":
-						int ticketID = obj.getInt("ticketID");
+						String ticketID = obj.getString("ticketID");
 						if (frame != null)
 							frame.servingTicket(ticketID);
 					break;

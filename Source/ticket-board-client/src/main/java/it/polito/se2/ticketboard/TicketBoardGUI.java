@@ -90,11 +90,11 @@ public class TicketBoardGUI extends JFrame {
 		lblCounter2.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblCounter3 = new JLabel("Counter 3");
 		lblCounter3.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblQueue1 = new JLabel("00A1");
+		lblQueue1 = new JLabel("-");
 		lblQueue1.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblQueue2 = new JLabel("00A1");
+		lblQueue2 = new JLabel("-");
 		lblQueue2.setFont(new Font("Dialog", Font.BOLD, 21));
-		lblQueue3 = new JLabel("00A1");
+		lblQueue3 = new JLabel("-");
 		lblQueue3.setFont(new Font("Dialog", Font.BOLD, 21));
 		lblAccounting = new JLabel("Accounting queue:");
 		lblAccounting.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -200,20 +200,20 @@ public class TicketBoardGUI extends JFrame {
 		JOptionPane.showMessageDialog(null, message);
 	}
 
-	public void updateGUI(int lenghtA, int lenghtB, int lastTicket, int counterID) {
+	public void updateGUI(int lenghtA, int lenghtB, String lastTicket, int counterID) {
 		lblQueueAccountingNO.setText(String.valueOf(lenghtA));
 		lblQueuePackageNO.setText(String.valueOf(lenghtB));
 		
 		System.out.println(lastTicket + " " + counterID);
 		switch(counterID) {
 		case 1:
-			lblQueue1.setText(String.valueOf(lastTicket));
+			lblQueue1.setText(lastTicket);
 			break;
 		case 2:
-			lblQueue2.setText(String.valueOf(lastTicket));
+			lblQueue2.setText(lastTicket);
 			break;
 		case 3:
-			lblQueue3.setText(String.valueOf(lastTicket));
+			lblQueue3.setText(lastTicket);
 			break;
 		default:
 			break;

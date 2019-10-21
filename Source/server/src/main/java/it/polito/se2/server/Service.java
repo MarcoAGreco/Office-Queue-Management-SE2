@@ -38,12 +38,12 @@ public class Service {
 		case "serve_next":
 			try {
 				int counterID = json.getInt("id");
-				int ticketID = db.selectTicketToServe(counterID, todayDate);
-
+				String ticket = db.selectTicketToServe(counterID, todayDate);
+				
 				JSONObject response = new JSONObject();
 				response.put("operation", "serve");
 				response.put("counterID", counterID);
-				response.put("ticketID", ticketID);
+				response.put("ticketID", ticket);
 				clientWriter = new PrintWriter(socket.getOutputStream(), true);
 				clientWriter.println(response);
 				
@@ -52,7 +52,7 @@ public class Service {
 				resp.put("operation", "queue_update");
 				resp.put("queueALenght", db.getQueueLength("Accounting", todayDate));
 				resp.put("queueBLenght", db.getQueueLength("Package", todayDate));
-				resp.put("lastTicket", ticketID);
+				resp.put("lastTicket", ticket);
 				resp.put("counterID", counterID);
 				master.broadcast(resp);
 				
@@ -90,7 +90,7 @@ public class Service {
 				resp.put("operation", "queue_update");
 				resp.put("queueALenght", db.getQueueLength("Accounting", todayDate));
 				resp.put("queueBLenght", db.getQueueLength("Package", todayDate));
-				resp.put("lastTicket", -1);
+				resp.put("lastTicket", "-");
 				resp.put("counterID", -1);
 				master.broadcast(resp);
 

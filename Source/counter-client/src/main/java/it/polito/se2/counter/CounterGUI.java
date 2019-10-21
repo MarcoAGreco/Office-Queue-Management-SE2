@@ -157,8 +157,8 @@ public class CounterGUI extends JFrame {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
-	public void servingTicket(int ticketID) {
-		if(ticketID == -1) {
+	public void servingTicket(String ticketID) {
+		if(ticketID.equals("-")) {
 			lblCurrentTicket.setText("Current ticket: No more pending tickets");
 		} else {
 			lblCurrentTicket.setText("Current ticket: "+ticketID);

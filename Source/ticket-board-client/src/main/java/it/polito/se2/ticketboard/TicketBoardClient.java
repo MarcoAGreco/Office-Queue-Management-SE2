@@ -88,7 +88,7 @@ public class TicketBoardClient {
 					case "queue_update":
 						int queueALenght = obj.getInt("queueALenght");
 						int queueBLenght = obj.getInt("queueBLenght");
-						int lastTicketServed = obj.getInt("lastTicket");
+						String lastTicketServed = obj.getString("lastTicket");
 						int counterID = obj.getInt("counterID"); //-1 for queuelenght update only
 						
 						if (frame != null) {

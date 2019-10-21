@@ -170,16 +170,17 @@ public class DatabaseQuery
     	
     	return String.valueOf(ticketId);
     }
-
-	public synchronized int selectTicketToServe(int counterID, Date todayDate) {
+    
+	public synchronized String selectTicketToServe(int counterID, Date todayDate) {
 		int ticketToServe = -1; 
+		String reqTypeToServe = "";
     	try {       
 	    	String query =  "LOCK TABLES Ticket WRITE, Counter C1 WRITE, Counter C2 WRITE, Ticket T WRITE, Ticket T1 WRITE, Ticket T2 WRITE, RequestType R1 WRITE;";
 	    	PreparedStatement pStat = connection.prepareStatement(query);
     		pStat.executeUpdate(query);
     		Statement stat = connection.createStatement(); 
 
-    		query = "SELECT T.TicketID\n" + 
+    		query = "SELECT T.TicketID, T.RequestType\n" + 
     				"FROM Ticket T\n" + 
     				"WHERE Date = '" + todayDate + "' AND\n" + 
     				"	CounterAssigned IS NULL AND\n" + 
@@ -217,10 +218,11 @@ public class DatabaseQuery
     			query =  "UNLOCK TABLES;"; 
     	    	pStat = connection.prepareStatement(query);
     	    	pStat.executeUpdate(query);
-    			return -1;
+    			return "-";
             }
     		ticketToServe = result.getInt("TicketID");
-    		System.out.println("Ticket to serve: " + ticketToServe);
+    		reqTypeToServe = result.getString("RequestType");
+    		System.out.println("Ticket to serve: " + ticketToServe + reqTypeToServe.charAt(0));
     		
 	    	// set ticket as served
     		pStat.close();
@@ -235,7 +237,12 @@ public class DatabaseQuery
         } catch(SQLException e) {
             e.printStackTrace();
         }   
-    	return ticketToServe;
+    	String id;
+    	if(ticketToServe == -1) 
+    		id = "-";
+    	else 
+    		id = "" + ticketToServe;
+    	return new String(id+reqTypeToServe.charAt(0));
 	}
 
 	public int getQueueLength(String requestType, Date todayDate) throws SQLException {
