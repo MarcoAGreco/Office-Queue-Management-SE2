@@ -72,8 +72,7 @@ public class TicketBoardGUI extends JFrame {
 	}
 
 	public TicketBoardGUI() {
-		//this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
-
+		this.client = new TicketBoardClient(this, "localhost", TicketBoardClient.PORT_NUMBER);
 		initComponents();
 	}
 
@@ -201,31 +200,24 @@ public class TicketBoardGUI extends JFrame {
 		JOptionPane.showMessageDialog(null, message);
 	}
 
-	public void updateGUI(int lenghtA, int lenghtB, String lastTicket, int counterID) {
+	public void updateGUI(int lenghtA, int lenghtB, int lastTicket, int counterID) {
+		lblQueueAccountingNO.setText(String.valueOf(lenghtA));
+		lblQueuePackageNO.setText(String.valueOf(lenghtB));
+		
+		System.out.println(lastTicket + " " + counterID);
 		switch(counterID) {
 		case 1:
-			lblQueue1.setText(lastTicket);
-			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
-			lblQueuePackageNO.setText(String.valueOf(lenghtB));		
+			lblQueue1.setText(String.valueOf(lastTicket));
 			break;
 		case 2:
-			lblQueue2.setText(lastTicket);
-			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
-			lblQueuePackageNO.setText(String.valueOf(lenghtB));
+			lblQueue2.setText(String.valueOf(lastTicket));
 			break;
 		case 3:
-			lblQueue3.setText(lastTicket);
-			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
-			lblQueuePackageNO.setText(String.valueOf(lenghtB));
-			break;
-		case -1:
-			lblQueueAccountingNO.setText(String.valueOf(lenghtA));
-			lblQueuePackageNO.setText(String.valueOf(lenghtB));
+			lblQueue3.setText(String.valueOf(lastTicket));
 			break;
 		default:
 			break;
 		}
-		
 	}
 	
 	public static void main(String[] args) {

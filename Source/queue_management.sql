@@ -74,12 +74,6 @@ CREATE TABLE IF NOT EXISTS `Ticket` (
 -- Constraints for dumped tables
 --
 
---
--- Constraints for table `Ticket`
---
-ALTER TABLE `Ticket`
-  ADD CONSTRAINT `Ticket_ibfk_1` FOREIGN KEY (`CounterAssigned`) REFERENCES `Counter` (`CounterID`);
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

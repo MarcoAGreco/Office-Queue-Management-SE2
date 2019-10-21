@@ -90,8 +90,10 @@ public class Service {
 				resp.put("operation", "queue_update");
 				resp.put("queueALenght", db.getQueueLength("Accounting", todayDate));
 				resp.put("queueBLenght", db.getQueueLength("Package", todayDate));
+				resp.put("lastTicket", -1);
+				resp.put("counterID", -1);
 				master.broadcast(resp);
-				
+
 			} catch (IOException e) {
 				System.err.println("Server Worker: Could not open output stream");
 				e.printStackTrace();
