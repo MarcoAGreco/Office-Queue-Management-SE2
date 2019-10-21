@@ -123,7 +123,7 @@ public class CounterClient {
 		public void run() {
 			while (read());	
 			System.out.println("Server closed the connection");
-			System.exit(-1);
+//			System.exit(-1);
 		}
 
 		private boolean read()	{
