@@ -11,13 +11,32 @@
 * Cala' Giovanni - 259741
 
 ## Timesheet
-Time spent / Time estimated (in parenthesis)
+Time spent / Time estimated (in parenthesis) in hours
 
 **Story #1**
 
 | Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 | Task 7 | Task 8 | Task 9 | Task 10 |
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
-| | | | | | |In progress | |In progress | |
+| 0.6 (1)| 0.5 (0.6)| 0.6 (0.5)  | 1 (1)  | 1 (1)  | 2 (1.5) | | | | ||
+
+| Task 11 | Task 12 | Task 13 | Task 14 | Task 15 | Task 16 | Task 17 | Task 18 | Task 19 |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| 1.5 (0.5)| |   |   |   | 1 (1) | 1.5 (1) | 2 (1.5) | | |
+
+**Story #2**
+
+| Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| | |   |   |   |  | | | | ||
+
+**Story #3**
+
+| Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| | | 1.5 (1.5) | 0.5 (1)  |  |  | | | 
+
+
+
 
 ## Requirements
 
