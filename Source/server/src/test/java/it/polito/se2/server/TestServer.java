@@ -88,11 +88,27 @@ class TestServer {
         
         try { 
 			String query2 = "DELETE FROM Ticket WHERE TicketID=300";
-			PreparedStatement stat2 = connection.prepareStatement(query);
+			PreparedStatement stat2 = connection.prepareStatement(query2);
 			stat2.executeUpdate(query2);
         } catch(SQLException e) {
             e.printStackTrace();
         }        
+	}
+	
+	@Test
+	void testServeNext() throws SQLException {
+		DatabaseQuery db = new DatabaseQuery(connection);
+		int ticket = db.selectTicketToServe(1, testDate);
+		//System.out.println("hi :"+ ticket);
+		assertEquals(1, ticket);
+		
+	try { 
+		String query = "UPDATE Ticket SET CounterAssigned = NULL WHERE Ticket.TicketID = 1 AND Ticket.Date = '2019-10-18'";
+		PreparedStatement stat = connection.prepareStatement(query);
+		stat.executeUpdate(query);
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }   
 	}
 	
 	
