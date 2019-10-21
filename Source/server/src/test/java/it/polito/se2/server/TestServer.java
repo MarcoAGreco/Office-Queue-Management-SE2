@@ -100,7 +100,7 @@ class TestServer {
 		DatabaseQuery db = new DatabaseQuery(connection);
 		String ticket = db.selectTicketToServe(1, testDate);
 		//System.out.println("hi :"+ ticket);
-		assertEquals("1", ticket);
+		assertEquals("1", ticket.charAt(0));
 		
 	try { 
 		String query = "UPDATE Ticket SET CounterAssigned = NULL WHERE Ticket.TicketID = 1 AND Ticket.Date = '2019-10-18'";
