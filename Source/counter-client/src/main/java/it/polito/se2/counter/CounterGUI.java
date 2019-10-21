@@ -36,7 +36,7 @@ public class CounterGUI extends JFrame {
 		this.client = new CounterClient(this, "localhost", CounterClient.PORT_NUMBER);
 
 		initComponents();
-		createEvents();
+		createEvents(this);
 	}
 	
 	private void initComponents() {
@@ -123,7 +123,20 @@ public class CounterGUI extends JFrame {
 		mainPane.add(tabbedPane);
 	}
 	
-	private void createEvents() {
+	private void createEvents(JFrame frame) {
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(frame, 
+		            "Are you sure you want to close this window?", "Close Window?", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		        	client.shutdown();
+		            System.exit(0);
+		        }
+		    }
+		});
+		
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String[] reqTypes = new String[2];

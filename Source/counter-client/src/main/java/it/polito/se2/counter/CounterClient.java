@@ -107,6 +107,17 @@ public class CounterClient {
 		write.println(obj);
 	}
 	
+	public void shutdown() {
+		if(CounterID != -1) {
+			JSONObject obj = new JSONObject();
+			
+			obj.put("operation", "goodbye");
+			obj.put("counterID", CounterID);
+			
+			write.println(obj);
+		}
+	}
+	
 	
 	class ClientListener extends Thread	{
 		public void run() {
