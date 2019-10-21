@@ -251,5 +251,20 @@ public class DatabaseQuery
         
         return queueLength;
 	}
+	
+	public void deleteCounter(int counterID) {
+		PreparedStatement pStat;
+		
+		try {
+			
+			String query = "DELETE FROM Counter WHERE CounterID = '" + counterID + "'";		
+			pStat = connection.prepareStatement(query);
+			pStat.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+  		
+	}
 
 }

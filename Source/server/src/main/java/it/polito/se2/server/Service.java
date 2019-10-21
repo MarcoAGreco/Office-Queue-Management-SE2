@@ -118,6 +118,9 @@ public class Service {
 				e1.printStackTrace();
 			}
 			break;
+		case "goodbye":
+			db.deleteCounter(json.getInt("counterID"));
+			break;
 		default:
 			try {
 				JSONObject obj = new JSONObject();
