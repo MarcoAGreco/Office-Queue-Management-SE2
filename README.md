@@ -23,11 +23,23 @@ Time spent / Time estimated (in parenthesis) in hours
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 | 1.5 (0.5)| 0.75 (0.75) | 0.6 (0.5)  | 0.5 (0.5)  | 0.5 (1)  | 1 (1) | 1.5 (1) | 2 (1.5) | 2 (1.5) | |
 
+Status: completed  
+Story points: 2  
+Time estimated: 17.35 hours  
+Time spent: 19.15 hours  
+Ratio points/hours_spent: 0.1
+
 **Story #2**
 
 | Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 |
 |:------:|:------:|:------:|:------:|:------:|:------:|
 | 0.5 (0.6) | 0.4 (0.5) | 0.6 (1) | 0.5(1)  |  1.5 (1.5) |1.5 (1)  | | | | ||
+
+Status: completed  
+Story points: 2  
+Time estimated: 5.6 hours  
+Time spent: 5 hours  
+Ratio points/hours_spent: 0.4
 
 **Story #3**
 
@@ -35,17 +47,29 @@ Time spent / Time estimated (in parenthesis) in hours
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 |0.5 (0.4) | 0 (0.5) | 1.5 (1.5) | 0.5 (1)  | 0.6 (0.5) | 0.5 (0.5) | 1.1 (1) | 2 (1.5) | 1.5 (1) |
 
+*Status:* completed  
+*Story points:* 8  
+*Time estimated:* 7.9 hours  
+*Time spent:* 8.2 hours  
+*Ratio points/hours_spent:* 0.97
+
 **Story #4**
 
 | Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 |
 |:------:|:------:|:------:|:------:|:------:|:------:|
 | 0.3 (0.5)| 1.25 (1) | 1.25 (0.5)  |   |   | | | | | ||
 
+*Status:* not finished   
+*Story points:* 2 
+
 **Story #5**
 
 | Task 1 | Task 2 | Task 3 | Task 4 | Task 5 | Task 6 |
 |:------:|:------:|:------:|:------:|:------:|:------:|
 | 0.8 (0.5)| 2 (1) | 2 (1)  |   |   | | | | | ||
+
+*Status:* not finished  
+*Story points:* 5 
 
 ## Requirements
 
