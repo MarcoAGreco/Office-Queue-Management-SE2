@@ -72,6 +72,7 @@ public class TicketBoardClient {
 	}
 	
 	class ClientListener extends Thread	{
+		@Override
 		public void run() {
 			while (read());	
 			System.out.println("Server closed the connection");
