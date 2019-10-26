@@ -23,11 +23,11 @@ Time spent / Time estimated (in parenthesis) in hours
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 | 1.5 (0.5)| 0.75 (0.75) | 0.6 (0.5)  | 0.5 (0.5)  | 0.5 (1)  | 1 (1) | 1.5 (1) | 2 (1.5) | 2 (1.5) | |
 
-Status: completed  
-Story points: 2  
-Time estimated: 17.35 hours  
-Time spent: 19.15 hours  
-Ratio points/hours_spent: 0.1
+*Status:* completed  
+*Story points:* 2  
+*Time estimated:* 17.35 hours  
+*Time spent:* 19.15 hours  
+*Ratio points/hours_spent:* 0.1
 
 **Story #2**
 
@@ -35,11 +35,11 @@ Ratio points/hours_spent: 0.1
 |:------:|:------:|:------:|:------:|:------:|:------:|
 | 0.5 (0.6) | 0.4 (0.5) | 0.6 (1) | 0.5(1)  |  1.5 (1.5) |1.5 (1)  | | | | ||
 
-Status: completed  
-Story points: 2  
-Time estimated: 5.6 hours  
-Time spent: 5 hours  
-Ratio points/hours_spent: 0.4
+*Status:* completed  
+*Story points:* 2  
+*Time estimated:* 5.6 hours  
+*Time spent:* 5 hours  
+*Ratio points/hours_spent:* 0.4
 
 **Story #3**
 
